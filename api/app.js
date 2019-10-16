@@ -6,6 +6,10 @@ const app = express();
 const morgan = require("morgan");
 app.use(morgan("dev"));
 
+//Add CORS to support secure cross origin requests and data transfers between browsers and web servers
+const cors = require("cors");
+app.use(cors());
+
 // variable to enable global error logging
 const enableGlobalErrorLogging =
   process.env.ENABLE_GLOBAL_ERROR_LOGGING === "true";
