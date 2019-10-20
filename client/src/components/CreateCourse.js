@@ -5,7 +5,7 @@ class CreateCourse extends Component {
 
     handleCancel = e => {
         e.preventDefault();
-        // location.href = 'index.html';
+        this.props.history.push('/courses');
     }
 
     render() { 

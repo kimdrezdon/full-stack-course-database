@@ -5,7 +5,8 @@ class UpdateCourse extends Component {
 
     handleCancel = e => {
         e.preventDefault();
-        // location.href = 'course-detail.html';
+        const courseId = this.props.match.params.id;
+        this.props.history.push(`/courses/${courseId}`);
     }
 
     render() { 

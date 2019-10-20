@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class CourseDetail extends Component {
     state = {
@@ -21,18 +22,18 @@ class CourseDetail extends Component {
     }
 
     render() { 
-        // const selectedCourse = this.state.courses[1];
-
+        const courseId = this.props.match.params.id;
+        
         return (
             <div>
                 <div className="actions--bar">
                     <div className="bounds">
                         <div className="grid-100">
                             <span>
-                                <a className="button" href="update-course.html">Update Course</a>
-                                <a className="button" href="delete-course.html">Delete Course</a>
+                                <Link to={`/courses/${courseId}/update`} className="button">Update Course</Link>
+                                <Link to="/courses" className="button">Delete Course</Link>
                             </span>
-                            <a className="button button-secondary" href="index.html">Return to List</a>
+                            <Link to="/courses/" className="button button-secondary">Return to List</Link>
                         </div>
                     </div>
                 </div>
@@ -40,7 +41,7 @@ class CourseDetail extends Component {
                     <div className="grid-66">
                         <div className="course--header">
                             <h4 className="course--label">Course</h4>
-                            {/* <h3 className="course--title">{selectedCourse.title}</h3> */}
+                            <h3 className="course--title">Course Title</h3>
                             {/* <p>By {selectedCourse.userId}</p> */}
                         </div>
                         <div className="course--description">
