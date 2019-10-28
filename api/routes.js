@@ -129,7 +129,11 @@ router.get("/courses/:id", asyncHandler(async (req, res) => {
       }
     ] //list of associations to load
   });
-  res.status(200).json(course);
+  if (course) {
+    res.status(200).json(course);
+  } else {
+    res.sendStatus(404);
+  }
 }));
 
 //Send a POST request to /courses to create a course, set the Location header to the URI for the course, and return no content (201)
