@@ -13,7 +13,10 @@ class CourseDetail extends Component {
         fetch(url)
             .then(response => response.json())
             .then(responseData => {
-                this.setState({ course: responseData, courseOwner: responseData.User });
+                this.setState({ 
+                    course: responseData, 
+                    courseOwner: responseData.User 
+                });
             })
             .catch(error => {
                 console.log('Error fetching data', error);

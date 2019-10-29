@@ -17,10 +17,22 @@ class UserSignIn extends Component {
                     <div>
                         <form>
                             <div>
-                                <input id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address" value=""></input>
+                                <input 
+                                    id="emailAddress" 
+                                    name="emailAddress" 
+                                    type="text" 
+                                    className="" 
+                                    placeholder="Email Address" 
+                                    value="" />
                             </div>
                             <div>
-                                <input id="password" name="password" type="password" className="" placeholder="Password" value=""></input>
+                                <input 
+                                    id="password" 
+                                    name="password" 
+                                    type="password" 
+                                    className="" 
+                                    placeholder="Password" 
+                                    value="" />
                             </div>
                             <div className="grid-100 pad-bottom">
                                 <button className="button" type="submit">Sign In</button>
