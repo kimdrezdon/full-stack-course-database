@@ -9,12 +9,12 @@ export class Provider extends Component {
         authenticatedUser: null
     }
     
-    callApi = (path, request = 'GET', body = null, requiresAuthentication = false, credentials = null) => {
+    callApi = (path, method = 'GET', body = null, requiresAuthentication = false, credentials = null) => {
         
         const url = 'http://localhost:5000/api' + path;
 
         const options = {
-            request,
+            method,
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
             }
