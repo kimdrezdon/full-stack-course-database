@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 class UpdateCourse extends Component {
     state = {
         courseOwner: {},
-        courseTitle: '',
-        courseDescription: '',
-        courseEstimatedTime: '',
-        courseMaterialsNeeded: ''
+        title: '',
+        description: '',
+        estimatedTime: '',
+        materialsNeeded: ''
     }
 
     componentDidMount() {
@@ -16,10 +16,10 @@ class UpdateCourse extends Component {
             .then(responseData => {
                 this.setState({
                     courseOwner: responseData.User,
-                    courseTitle: responseData.title,
-                    courseDescription: responseData.description,
-                    courseEstimatedTime: (responseData.estimatedTime ? responseData.estimatedTime : ''),
-                    courseMaterialsNeeded: (responseData.materialsNeeded ? responseData.materialsNeeded : '')
+                    title: responseData.title,
+                    description: responseData.description,
+                    estimatedTime: (responseData.estimatedTime ? responseData.estimatedTime : ''),
+                    materialsNeeded: (responseData.materialsNeeded ? responseData.materialsNeeded : '')
                 });
             })
             .catch(error => {
@@ -27,9 +27,21 @@ class UpdateCourse extends Component {
             });
     }
 
-    updateCourse = (courseId) => {
+    handleSubmit = () => {
+        const courseId = this.props.match.params.id;
         const url = 'http://localhost:5000/api/courses/' + courseId;
-        const options = { method: 'PUT' }
+        const data = { 
+            userId: this.state.courseOwner.id,
+            title: this.state.title,
+            description: this.state.description,
+            estimatedTime: this.state.estimatedTime,
+            materialsNeeded: this.state.materialsNeeded
+        }
+        console.log(data);
+        const options = { 
+            method: 'PUT',
+            body: JSON.stringify(data) 
+        }
         fetch(url, options);
         this.props.history.push(`/courses/${courseId}`);
     }
@@ -51,28 +63,28 @@ class UpdateCourse extends Component {
     render() { 
         const {
             courseOwner,
-            courseTitle,
-            courseDescription,
-            courseEstimatedTime,
-            courseMaterialsNeeded
+            title,
+            description,
+            estimatedTime,
+            materialsNeeded
         } = this.state;
 
         return ( 
             <div className="bounds course--detail">
                 <h1>Update Course</h1>
                 <div>
-                    <form>
+                    <form onSubmit={this.handleSubmit}>
                         <div className="grid-66">
                             <div className="course--header">
                                 <h4 className="course--label">Course</h4>
                                 <div>
                                     <input 
                                         id="title" 
-                                        name="courseTitle" 
+                                        name="title" 
                                         type="text" 
                                         className="input-title course--title--input" 
                                         placeholder="Course title..."
-                                        value={courseTitle} 
+                                        value={title} 
                                         onChange={this.handleChange} />
                                 </div>
                                 <p>By {courseOwner.firstName} {courseOwner.lastName}</p>
@@ -81,10 +93,10 @@ class UpdateCourse extends Component {
                                 <div>
                                     <textarea 
                                         id="description" 
-                                        name="courseDescription" 
+                                        name="description" 
                                         className="" 
                                         placeholder="Course description..." 
-                                        value={courseDescription}
+                                        value={description}
                                         onChange={this.handleChange} />
                                 </div>
                             </div>
@@ -97,11 +109,11 @@ class UpdateCourse extends Component {
                                         <div>
                                             <input 
                                                 id="estimatedTime" 
-                                                name="courseEstimatedTime" 
+                                                name="estimatedTime" 
                                                 type="text" 
                                                 className="course--time--input"
                                                 placeholder="Hours" 
-                                                value={courseEstimatedTime}
+                                                value={estimatedTime}
                                                 onChange={this.handleChange} />
                                         </div>
                                     </li>
@@ -110,10 +122,10 @@ class UpdateCourse extends Component {
                                         <div>
                                             <textarea 
                                                 id="materialsNeeded" 
-                                                name="courseMaterialsNeeded" 
+                                                name="materialsNeeded" 
                                                 className="" 
                                                 placeholder="List materials..." 
-                                                value={courseMaterialsNeeded}
+                                                value={materialsNeeded}
                                                 onChange={this.handleChange} />
                                         </div>
                                     </li>
@@ -121,7 +133,7 @@ class UpdateCourse extends Component {
                             </div>
                         </div>
                         <div className="grid-100 pad-bottom">
-                            <button onClick={() => {this.updateCourse(this.props.match.params.id)}} className="button" type="submit">Update Course</button>
+                            <button className="button" type="submit">Update Course</button>
                             <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
                         </div>
                     </form>
