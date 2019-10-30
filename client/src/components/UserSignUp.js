@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-class UserSignUp extends Component {
+export default class UserSignUp extends Component {
     state = { 
         firstName: '',
         lastName: '',
         emailAddress: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        errors: []
     }
 
     handleCancel = e => {
@@ -24,27 +25,31 @@ class UserSignUp extends Component {
     }
 
     handleSubmit = e => {
-        e.preventDefault();
+        e.preventDefault(); 
         if (this.state.password === this.state.confirmPassword) {
-            const url = 'http://localhost:5000/api/users';
-            const data = { 
+            const userData = { 
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 emailAddress: this.state.emailAddress,
                 password: this.state.password
             }
-            console.log(data);
-            const options = { 
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
-                }
-            }
-            fetch(url, options);
-            this.props.history.push(`/courses`);
+            this.props.context.actions.signUp(userData)
+                .then( errors => {
+                    if (errors.length) {
+                        this.setState({ errors });
+                        console.log(this.state.errors);
+                    } else {
+                        console.log('Sign up successful!')
+                    }
+                })
+                .catch( err => {
+                    console.log(err);
+                    this.props.history.push('/error');
+                })
         } else {
-            console.log('passwords do not match')
+            this.setState({
+                errors: ['Passwords do not match']
+            })
         }
     }
 
@@ -54,7 +59,8 @@ class UserSignUp extends Component {
             lastName,
             emailAddress,
             password,
-            confirmPassword
+            confirmPassword,
+            errors
         } = this.state;
 
         return ( 
@@ -62,6 +68,7 @@ class UserSignUp extends Component {
                 <div className="grid-33 centered signin">
                     <h1>Sign Up</h1>
                     <div>
+                        
                         <form onSubmit={this.handleSubmit}>
                             <div>
                                 <input 
@@ -126,5 +133,3 @@ class UserSignUp extends Component {
          );
     }
 }
- 
-export default UserSignUp;
