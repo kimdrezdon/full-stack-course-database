@@ -26,7 +26,7 @@ class CreateCourse extends Component {
     handleSubmit = e => {
         e.preventDefault();
         if (this.props.context.authenticatedUser) {
-            const { emailAddress, password } = this.props.context.authenticatedUser.emailAddress;
+            const { emailAddress, password } = this.props.context.authenticatedUser;
             const courseData = {
                 title: this.state.title,
                 description: this.state.description,
