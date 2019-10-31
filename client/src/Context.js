@@ -26,17 +26,35 @@ export class Provider extends Component {
         }
 
         if (requiresAuthentication) { 
-            const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+            const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
             options.headers['Authorization'] = `Basic ${encodedCredentials}`;
         }
 
         return fetch(url, options);
     }
 
+    //getUser method
+    getUser = async (emailAddress, password) => {
+        const response = await this.callApi(`/users`, 'GET', null, true, {emailAddress, password});
+        if (response.status === 200) {
+            return response.json()
+                .then(responseData => responseData);
+        } else if (response.status === 401) {            
+            return null;
+        } else {
+            throw new Error();
+        }
+    }
+
     //signIn method
-    signIn = async (username, password) => {
-        const user = await this.callApi(`/users`, 'GET', null, true, {username, password});
-        console.log(user.status);
+    signIn = async (emailAddress, password) => {
+        const user = await this.getUser(emailAddress, password);
+        if (user !== null) {
+            this.setState({ 
+                authenticatedUser: user 
+            })
+        }
+        return user;
     }
 
     //signOut method
@@ -52,14 +70,13 @@ export class Provider extends Component {
                         return responseData.errors;
                     })
         } else if (response.status === 200) {
-            return ['Account already exists with that email address']
+            return ['Account already exists with that email address'];
         } else {
             throw new Error();
         }
     }
     
     render() {
-
         const value = {
             authenticatedUser: this.state.authenticatedUser,
             actions: {
