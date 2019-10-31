@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 
+//use the JavaScript Cookie library
+import Cookies from 'js-cookie';
+
 //sets up a context and returns an object with Provider and Consumer properties that are also objects.
 const Context = React.createContext();
 
 //A higher-order component (HOC) that shares functionality across the components of the app. Returns a Provider component which provides the application state and any actions or event handlers that need to be shared between components, via a required value prop.
 export class Provider extends Component {
-    state = { 
-        authenticatedUser: null
+    state = {
+        authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
+        userPassword: Cookies.getJSON('userPassword') || null
     }
     
     //callApi method used to make requests to the REST API
@@ -51,8 +55,12 @@ export class Provider extends Component {
         const user = await this.getUser(emailAddress, password);
         if (user !== null) {
             this.setState({ 
-                authenticatedUser: user 
-            })
+                authenticatedUser: user,
+                userPassword: user.password
+            });
+
+            Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
+            Cookies.set('userPassword', user.password, { expires: 1});
         }
         return user;
     }
@@ -60,8 +68,11 @@ export class Provider extends Component {
     //signOut method
     signOut = () => {
         this.setState({
-            authenticatedUser: null
-        })
+            authenticatedUser: null,
+            userPassword: null
+        });
+        Cookies.remove('authenticatedUser');
+        Cookies.remove('userPassword');
     }
 
     //signUp method
@@ -84,10 +95,12 @@ export class Provider extends Component {
     render() {
         const value = {
             authenticatedUser: this.state.authenticatedUser,
+            userPassword: this.state.userPassword,
             actions: {
                 signIn: this.signIn,
                 signOut: this.signOut,
-                signUp: this.signUp
+                signUp: this.signUp,
+                callApi: this.callApi
             }
         }
 
