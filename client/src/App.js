@@ -20,6 +20,7 @@ const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 const HeaderWithContext = withContext(Header);
+const CreateCourseWithContext = withContext(CreateCourse);
 
 const App = () => (
   <BrowserRouter>
@@ -29,7 +30,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" render={() => <Redirect to ="/courses" />} />
         <Route exact path="/courses" component={Courses} />
-        <Route path="/courses/create" component={CreateCourse} />
+        <Route path="/courses/create" component={CreateCourseWithContext} />
         <Route path="/courses/:id/update" component={UpdateCourse} />
         <Route exact path="/courses/:id" component={CourseDetail} />
         <Route path="/signin" component={UserSignInWithContext} />
