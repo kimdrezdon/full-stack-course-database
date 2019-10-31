@@ -47,7 +47,7 @@ const authenticateUser = async (req, res, next) => {
         // Then store the retrieved user object on the request object so any middleware functions that follow this middleware function will have access to the user's information.
         req.currentUser = user;
       } else {
-        message = `Authentication failure for username: ${user.username}`;
+        message = `Authentication failure for username: ${user.emailAddress}`;
       }
     } else {
       message = `User not found for username: ${credentials.name}`;
@@ -69,7 +69,7 @@ const authenticateUser = async (req, res, next) => {
 //Send a GET request to /users to return the currently authenticated user (200)
 router.get("/users", authenticateUser, asyncHandler(async (req, res) => {
     const user = await User.findByPk(req.currentUser.dataValues.id, {
-      attributes: { exclude: ["password", "createdAt", "updatedAt"] }
+      attributes: { exclude: ["createdAt", "updatedAt"] }
     });
     res.status(200).json(user);
 }));
