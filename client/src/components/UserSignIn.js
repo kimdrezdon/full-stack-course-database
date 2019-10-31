@@ -32,7 +32,7 @@ class UserSignIn extends Component {
                         errors: ['Sign-in was unsuccessful']
                     })
                 } else {
-                    console.log('Sign up successful!')
+                    this.props.history.push('/courses');
                 }
             })
             .catch( err => {
