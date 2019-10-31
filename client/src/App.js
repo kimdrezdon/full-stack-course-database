@@ -18,6 +18,9 @@ import UnhandledError from './components/UnhandledError';
 //connect the UserSignUp component to context
 const UserSignUpWithContext = withContext(UserSignUp);
 
+//connect the UserSignIn component to context
+const UserSignInWithContext = withContext(UserSignIn);
+
 const App = () => (
   <BrowserRouter>
     <div>
@@ -29,7 +32,7 @@ const App = () => (
         <Route path="/courses/create" component={CreateCourse} />
         <Route path="/courses/:id/update" component={UpdateCourse} />
         <Route exact path="/courses/:id" component={CourseDetail} />
-        <Route path="/signin" component={UserSignIn} />
+        <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signout" component={UserSignOut} />
         <Route path="/notfound" component={NotFound} />
