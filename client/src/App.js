@@ -15,16 +15,16 @@ import UserSignOut from './components/UserSignOut';
 import NotFound from './components/NotFound';
 import UnhandledError from './components/UnhandledError';
 
-//connect the UserSignUp component to context
+//connect components to context
 const UserSignUpWithContext = withContext(UserSignUp);
-
-//connect the UserSignIn component to context
 const UserSignInWithContext = withContext(UserSignIn);
+const UserSignOutWithContext = withContext(UserSignOut);
+const HeaderWithContext = withContext(Header);
 
 const App = () => (
   <BrowserRouter>
     <div>
-      <Header />
+      <HeaderWithContext />
       <hr></hr>
       <Switch>
         <Route exact path="/" render={() => <Redirect to ="/courses" />} />
@@ -34,7 +34,7 @@ const App = () => (
         <Route exact path="/courses/:id" component={CourseDetail} />
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
-        <Route path="/signout" component={UserSignOut} />
+        <Route path="/signout" component={UserSignOutWithContext} />
         <Route path="/notfound" component={NotFound} />
         <Route path="/error" component={UnhandledError} />
         <Route component={NotFound} />
