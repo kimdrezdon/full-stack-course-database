@@ -1,21 +1,60 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ErrorsDisplay from './ErrorsDisplay';
 
 class UserSignIn extends Component {
-    state = {  }
+    state = { 
+        emailAddress: '',
+        password: '',
+        errors: []
+    }
 
     handleCancel = e => {
         e.preventDefault();
         this.props.history.push('/courses');
     }
 
+    handleChange = e => {
+        const value = e.target.value;
+        const name = e.target.name;
+        this.setState({
+            [name] : value
+        })
+    }
+
+    handleSubmit = e => {
+        e.preventDefault();
+        const { emailAddress, password } = this.state
+        this.props.context.actions.signIn(emailAddress, password)
+            .then( user => {
+                if (user === null) {
+                    this.setState({ 
+                        errors: ['Sign-in was unsuccessful']
+                    })
+                } else {
+                    console.log('Sign up successful!')
+                }
+            })
+            .catch( err => {
+                console.log(err);
+                this.props.history.push('/error');
+            })
+    }
+
     render() { 
+        const {
+            emailAddress,
+            password,
+            errors
+        } = this.state;
+
         return ( 
             <div className="bounds">
                 <div className="grid-33 centered signin">
                     <h1>Sign In</h1>
                     <div>
-                        <form>
+                        <ErrorsDisplay errors={errors} />
+                        <form onSubmit={this.handleSubmit}>
                             <div>
                                 <input 
                                     id="emailAddress" 
@@ -23,7 +62,8 @@ class UserSignIn extends Component {
                                     type="text" 
                                     className="" 
                                     placeholder="Email Address" 
-                                    value="" />
+                                    value={emailAddress}
+                                    onChange={this.handleChange} />
                             </div>
                             <div>
                                 <input 
@@ -32,7 +72,8 @@ class UserSignIn extends Component {
                                     type="password" 
                                     className="" 
                                     placeholder="Password" 
-                                    value="" />
+                                    value={password}
+                                    onChange={this.handleChange} />
                             </div>
                             <div className="grid-100 pad-bottom">
                                 <button className="button" type="submit">Sign In</button>
