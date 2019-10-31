@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import ErrorsDisplay from './ErrorsDisplay';
 
 export default class UserSignUp extends Component {
     state = { 
@@ -37,7 +38,6 @@ export default class UserSignUp extends Component {
                 .then( errors => {
                     if (errors.length) {
                         this.setState({ errors });
-                        console.log(this.state.errors);
                     } else {
                         console.log('Sign up successful!')
                     }
@@ -52,6 +52,8 @@ export default class UserSignUp extends Component {
             })
         }
     }
+
+
 
     render() { 
         const {
@@ -68,7 +70,7 @@ export default class UserSignUp extends Component {
                 <div className="grid-33 centered signin">
                     <h1>Sign Up</h1>
                     <div>
-                        
+                        <ErrorsDisplay errors={errors} />
                         <form onSubmit={this.handleSubmit}>
                             <div>
                                 <input 
