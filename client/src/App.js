@@ -23,6 +23,7 @@ const HeaderWithContext = withContext(Header);
 const CreateCourseWithContext = withContext(CreateCourse);
 const UpdateCourseWithContext = withContext(UpdateCourse);
 const CourseDetailWithContext = withContext(CourseDetail);
+const CoursesWithContext = withContext(Courses);
 
 const App = () => (
   <BrowserRouter>
@@ -31,7 +32,7 @@ const App = () => (
       <hr></hr>
       <Switch>
         <Route exact path="/" render={() => <Redirect to ="/courses" />} />
-        <Route exact path="/courses" component={Courses} />
+        <Route exact path="/courses" component={CoursesWithContext} />
         <Route path="/courses/create" component={CreateCourseWithContext} />
         <Route path="/courses/:id/update" component={UpdateCourseWithContext} />
         <Route exact path="/courses/:id" component={CourseDetailWithContext} />
