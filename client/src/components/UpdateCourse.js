@@ -23,6 +23,9 @@ class UpdateCourse extends Component {
                     materialsNeeded: (responseData.materialsNeeded ? responseData.materialsNeeded : '')
                 });
             })
+            .catch(error => {
+                console.log('Error fetching data', error);
+            });
     }
 
     handleCancel = e => {
