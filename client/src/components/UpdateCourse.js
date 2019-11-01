@@ -32,7 +32,8 @@ class UpdateCourse extends Component {
                 }
             })
             .catch(error => {
-                console.log('Error fetching data', error);
+                console.log(error);
+                this.props.history.push('/error');
             });
     }
 

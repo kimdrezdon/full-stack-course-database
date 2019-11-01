@@ -12,7 +12,8 @@ class Courses extends Component {
                 this.setState({ courses: responseData });
             })
             .catch(error => {
-                console.log('Error fetching data', error);
+                console.log(error);
+                this.props.history.push('/error');
             });
     };
     

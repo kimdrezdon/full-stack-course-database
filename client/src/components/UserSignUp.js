@@ -43,8 +43,8 @@ export default class UserSignUp extends Component {
                         this.props.history.push('/courses');
                     }
                 })
-                .catch( err => {
-                    console.log(err);
+                .catch( error => {
+                    console.log(error);
                     this.props.history.push('/error');
                 })
         } else {
