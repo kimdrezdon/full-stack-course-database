@@ -91,11 +91,9 @@ const ButtonsDisplay = (props) => {
     } = props
 
     let buttonsDisplay = null;
-    const userId = authenticatedUser.id;
-    const courseOwnerId = courseOwner.id;
     
     if (authenticatedUser) {
-        if (userId === courseOwnerId) {
+        if (authenticatedUser.id === courseOwner.id) {
             buttonsDisplay = (
                 <span>
                     <Link to={`/courses/${courseId}/update`} className="button">Update Course</Link>
