@@ -9,9 +9,8 @@ class CourseDetail extends Component {
     };
     
     componentDidMount() {
-        const url = 'http://localhost:5000/api/courses/' + this.props.match.params.id;
-        fetch(url)
-            .then(response => response.json())
+        const courseId = this.props.match.params.id;
+        this.props.context.actions.getCourse(courseId)
             .then(responseData => {
                 this.setState({ 
                     course: responseData, 
@@ -24,13 +23,15 @@ class CourseDetail extends Component {
     };
 
     deleteCourse = (courseId) => {
-        const url = 'http://localhost:5000/api/courses/' + courseId;
-        const options = { method: 'DELETE' }
-        fetch(url, options);
+        this.props.context.actions.deleteCourse(courseId);
+        this.props.history.push('/courses');
     }
 
     render() {
-        const { course, courseOwner } = this.state;
+        const { 
+            course, 
+            courseOwner 
+        } = this.state;
 
         return (
             <div>
@@ -41,7 +42,7 @@ class CourseDetail extends Component {
                                 <Link to={`/courses/${this.props.match.params.id}/update`} className="button">Update Course</Link>
                                 <Link to="/courses" onClick={() => {this.deleteCourse(this.props.match.params.id)}} className="button">Delete Course</Link>
                             </span>
-                            <Link to="/courses/" className="button button-secondary">Return to List</Link>
+                            <Link to="/courses" className="button button-secondary">Return to List</Link>
                         </div>
                     </div>
                 </div>
