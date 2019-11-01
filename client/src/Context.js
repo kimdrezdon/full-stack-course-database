@@ -54,13 +54,14 @@ export class Provider extends Component {
     signIn = async (emailAddress, password) => {
         const user = await this.getUser(emailAddress, password);
         if (user !== null) {
+            const encryptedPassword = btoa(password);
             this.setState({ 
                 authenticatedUser: user,
-                userPassword: user.password
+                userPassword: encryptedPassword
             });
 
             Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
-            Cookies.set('userPassword', user.password, { expires: 1});
+            Cookies.set('userPassword', encryptedPassword, { expires: 1});
         }
         return user;
     }
@@ -91,6 +92,23 @@ export class Provider extends Component {
             throw new Error();
         }
     }
+
+    //createCourse method
+    createCourse = async (courseData) => {
+        const { emailAddress } = this.state.authenticatedUser;  
+        const password = atob(this.state.userPassword);
+        const response = await this.callApi('/courses', 'POST', courseData, true, {emailAddress, password});
+        if (response.status === 201) {
+            return [];
+        } else if (response.status === 400) {
+            return response.json()
+                    .then(responseData => {
+                        return responseData.errors;
+                    })
+        } else {
+            throw new Error();
+        }
+    }
     
     render() {
         const value = {
@@ -100,7 +118,7 @@ export class Provider extends Component {
                 signIn: this.signIn,
                 signOut: this.signOut,
                 signUp: this.signUp,
-                callApi: this.callApi
+                createCourse: this.createCourse
             }
         }
 

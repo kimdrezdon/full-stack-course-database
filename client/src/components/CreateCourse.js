@@ -26,14 +26,24 @@ class CreateCourse extends Component {
     handleSubmit = e => {
         e.preventDefault();
         if (this.props.context.authenticatedUser) {
-            const { emailAddress, password } = this.props.context.authenticatedUser;
             const courseData = {
                 title: this.state.title,
                 description: this.state.description,
                 estimatedTime: this.state.estimatedTime,
                 materialsNeeded: this.state.materialsNeeded
             };
-            this.props.context.actions.callApi('/courses', 'POST', courseData, true, {emailAddress, password})
+            this.props.context.actions.createCourse(courseData)
+                .then( errors => {
+                    if (errors.length) {
+                        this.setState({ errors });
+                    } else {
+                        this.props.history.push('/courses');
+                    }
+                })
+                .catch( err => {
+                    console.log(err);
+                    this.props.history.push('/error');
+                })
         } else {
             this.props.history.push('/signin');
         }
@@ -67,7 +77,7 @@ class CreateCourse extends Component {
                                         value={title}
                                         onChange={this.handleChange} />
                                 </div>
-                                <p>By Joe Smith</p>
+                                <p>By {this.props.context.authenticatedUser.firstName} {this.props.context.authenticatedUser.lastName}</p>
                             </div>
                             <div className="course--description">
                                 <div>
