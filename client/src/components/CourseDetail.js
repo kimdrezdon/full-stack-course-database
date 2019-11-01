@@ -38,10 +38,10 @@ class CourseDetail extends Component {
                 <div className="actions--bar">
                     <div className="bounds">
                         <div className="grid-100">
-                            <span>
-                                <Link to={`/courses/${this.props.match.params.id}/update`} className="button">Update Course</Link>
-                                <Link to="/courses" onClick={() => {this.deleteCourse(this.props.match.params.id)}} className="button">Delete Course</Link>
-                            </span>
+                            <ButtonsDisplay authenticatedUser={this.props.context.authenticatedUser}
+                                            courseOwner={courseOwner}
+                                            courseId={this.props.match.params.id}
+                                            deleteCourse={this.deleteCourse} />
                             <Link to="/courses" className="button button-secondary">Return to List</Link>
                         </div>
                     </div>
@@ -75,6 +75,32 @@ class CourseDetail extends Component {
             </div>
         );
     }
+}
+
+const ButtonsDisplay = (props) => {
+    const {
+        authenticatedUser,
+        courseOwner,
+        courseId,
+        deleteCourse
+    } = props
+
+    let buttonsDisplay = null;
+    const userId = authenticatedUser.id;
+    const courseOwnerId = courseOwner.id;
+    
+    if (authenticatedUser) {
+        if (userId === courseOwnerId) {
+            buttonsDisplay = (
+                <span>
+                    <Link to={`/courses/${courseId}/update`} className="button">Update Course</Link>
+                    <Link to="/courses" onClick={() => {deleteCourse(courseId)}} className="button">Delete Course</Link>
+                </span>
+            )
+        }
+    }
+
+    return buttonsDisplay;   
 }
  
 export default CourseDetail;
