@@ -24,6 +24,7 @@ class UserSignIn extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        const { from } = this.props.location.state || { from: { pathname: '/courses' } };
         const { emailAddress, password } = this.state
         this.props.context.actions.signIn(emailAddress, password)
             .then( user => {
@@ -32,7 +33,7 @@ class UserSignIn extends Component {
                         errors: ['Sign-in was unsuccessful']
                     })
                 } else {
-                    this.props.history.push('/courses');
+                    this.props.history.push(from);
                 }
             })
             .catch( err => {

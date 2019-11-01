@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 //import the withContext function from Context
 import withContext from './Context';
 
+//import components
+import PrivateRoute from './PrivateRoute';
 import Courses from "./components/Courses";
 import CourseDetail from "./components/CourseDetail";
 import UserSignIn from "./components/UserSignIn";
@@ -33,8 +35,8 @@ const App = () => (
       <Switch>
         <Route exact path="/" render={() => <Redirect to ="/courses" />} />
         <Route exact path="/courses" component={CoursesWithContext} />
-        <Route path="/courses/create" component={CreateCourseWithContext} />
-        <Route path="/courses/:id/update" component={UpdateCourseWithContext} />
+        <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
+        <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
         <Route exact path="/courses/:id" component={CourseDetailWithContext} />
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
