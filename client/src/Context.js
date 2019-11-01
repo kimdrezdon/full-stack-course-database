@@ -123,6 +123,17 @@ export class Provider extends Component {
         }
     }
 
+    //getCourses method
+    getCourses = async () => {
+        const response = await this.callApi(`/courses`, 'GET', null);
+        if (response.status === 200) {
+            return response.json()
+                .then(responseData => responseData);
+        } else {
+            throw new Error();
+        }
+    }
+
     //updateCourse method
     updateCourse = async (courseId, courseData) => {
         const { emailAddress } = this.state.authenticatedUser;  
@@ -139,6 +150,13 @@ export class Provider extends Component {
             throw new Error();
         }
     }
+
+    //deleteCourse method
+    deleteCourse = async (courseId) => {
+        const { emailAddress } = this.state.authenticatedUser;  
+        const password = atob(this.state.userPassword);
+        await this.callApi(`/courses/${courseId}`, 'DELETE', null, true, {emailAddress, password});
+    }
     
     render() {
         const value = {
@@ -150,7 +168,9 @@ export class Provider extends Component {
                 signUp: this.signUp,
                 createCourse: this.createCourse,
                 updateCourse: this.updateCourse,
-                getCourse: this.getCourse
+                getCourse: this.getCourse,
+                deleteCourse: this.deleteCourse,
+                getCourses: this.getCourses
             }
         }
 
