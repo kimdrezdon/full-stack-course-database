@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ErrorsDisplay from './ErrorsDisplay';
 
 class UpdateCourse extends Component {
     state = {
@@ -6,13 +7,13 @@ class UpdateCourse extends Component {
         title: '',
         description: '',
         estimatedTime: '',
-        materialsNeeded: ''
+        materialsNeeded: '',
+        errors: []
     }
 
     componentDidMount() {
-        const url = 'http://localhost:5000/api/courses/' + this.props.match.params.id;
-        fetch(url)
-            .then(response => response.json())
+        const courseId = this.props.match.params.id;
+        this.props.context.actions.getCourse(courseId)
             .then(responseData => {
                 this.setState({
                     courseOwner: responseData.User,
@@ -22,28 +23,6 @@ class UpdateCourse extends Component {
                     materialsNeeded: (responseData.materialsNeeded ? responseData.materialsNeeded : '')
                 });
             })
-            .catch(error => {
-                console.log('Error fetching data', error);
-            });
-    }
-
-    handleSubmit = () => {
-        const courseId = this.props.match.params.id;
-        const url = 'http://localhost:5000/api/courses/' + courseId;
-        const data = { 
-            userId: this.state.courseOwner.id,
-            title: this.state.title,
-            description: this.state.description,
-            estimatedTime: this.state.estimatedTime,
-            materialsNeeded: this.state.materialsNeeded
-        }
-        console.log(data);
-        const options = { 
-            method: 'PUT',
-            body: JSON.stringify(data) 
-        }
-        fetch(url, options);
-        this.props.history.push(`/courses/${courseId}`);
     }
 
     handleCancel = e => {
@@ -60,19 +39,45 @@ class UpdateCourse extends Component {
         })
     }
 
+    handleSubmit = e => {
+        e.preventDefault();
+        const courseId = this.props.match.params.id;
+        const courseData = { 
+            userId: this.state.courseOwner.id,
+            title: this.state.title,
+            description: this.state.description,
+            estimatedTime: this.state.estimatedTime,
+            materialsNeeded: this.state.materialsNeeded
+        }
+        this.props.context.actions.updateCourse(courseId, courseData)
+            .then( errors => {
+                if (errors.length) {
+                    this.setState({ errors });
+                } else {
+                    this.props.history.push(`/courses/${courseId}`);
+                }
+            })
+            .catch( err => {
+                console.log(err);
+                this.props.history.push('/error');
+            })   
+    }
+
     render() { 
         const {
             courseOwner,
             title,
             description,
             estimatedTime,
-            materialsNeeded
+            materialsNeeded,
+            errors
         } = this.state;
 
         return ( 
             <div className="bounds course--detail">
                 <h1>Update Course</h1>
                 <div>
+                    <ErrorsDisplay errors={errors} />
                     <form onSubmit={this.handleSubmit}>
                         <div className="grid-66">
                             <div className="course--header">

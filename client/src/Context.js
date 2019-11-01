@@ -109,6 +109,36 @@ export class Provider extends Component {
             throw new Error();
         }
     }
+
+    //getCourse method
+    getCourse = async (courseId) => {
+        const response = await this.callApi(`/courses/${courseId}`, 'GET', null);
+        if (response.status === 200) {
+            return response.json()
+                .then(responseData => responseData);
+        } else if (response.status === 404) {            
+            return null;
+        } else {
+            throw new Error();
+        }
+    }
+
+    //updateCourse method
+    updateCourse = async (courseId, courseData) => {
+        const { emailAddress } = this.state.authenticatedUser;  
+        const password = atob(this.state.userPassword);
+        const response = await this.callApi(`/courses/${courseId}`, 'PUT', courseData, true, {emailAddress, password});
+        if (response.status === 204) {
+            return [];
+        } else if (response.status === 400) {
+            return response.json()
+                .then(responseData => {
+                    return responseData.errors;
+                })
+        } else {
+            throw new Error();
+        }
+    }
     
     render() {
         const value = {
@@ -118,7 +148,9 @@ export class Provider extends Component {
                 signIn: this.signIn,
                 signOut: this.signOut,
                 signUp: this.signUp,
-                createCourse: this.createCourse
+                createCourse: this.createCourse,
+                updateCourse: this.updateCourse,
+                getCourse: this.getCourse
             }
         }
 
