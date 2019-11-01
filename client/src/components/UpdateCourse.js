@@ -16,13 +16,17 @@ class UpdateCourse extends Component {
         this.props.context.actions.getCourse(courseId)
             .then(responseData => {
                 if (responseData !== null) {
-                    this.setState({
-                        courseOwner: responseData.User,
-                        title: responseData.title,
-                        description: responseData.description,
-                        estimatedTime: (responseData.estimatedTime ? responseData.estimatedTime : ''),
-                        materialsNeeded: (responseData.materialsNeeded ? responseData.materialsNeeded : '')
-                    });
+                    if (responseData.User.id === this.props.context.authenticatedUser.id) {
+                        this.setState({
+                            courseOwner: responseData.User,
+                            title: responseData.title,
+                            description: responseData.description,
+                            estimatedTime: (responseData.estimatedTime ? responseData.estimatedTime : ''),
+                            materialsNeeded: (responseData.materialsNeeded ? responseData.materialsNeeded : '')
+                        });
+                    } else {
+                        this.props.history.push('/forbidden');
+                    }
                 } else {
                     this.props.history.push('/notfound');
                 }
