@@ -7,8 +7,7 @@ class Courses extends Component {
     };
     
     componentDidMount() {
-        fetch('http://localhost:5000/api/courses')
-            .then(response => response.json())
+        this.props.context.actions.getCourses()
             .then(responseData => {
                 this.setState({ courses: responseData });
             })
