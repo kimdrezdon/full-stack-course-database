@@ -15,13 +15,17 @@ class UpdateCourse extends Component {
         const courseId = this.props.match.params.id;
         this.props.context.actions.getCourse(courseId)
             .then(responseData => {
-                this.setState({
-                    courseOwner: responseData.User,
-                    title: responseData.title,
-                    description: responseData.description,
-                    estimatedTime: (responseData.estimatedTime ? responseData.estimatedTime : ''),
-                    materialsNeeded: (responseData.materialsNeeded ? responseData.materialsNeeded : '')
-                });
+                if (responseData !== null) {
+                    this.setState({
+                        courseOwner: responseData.User,
+                        title: responseData.title,
+                        description: responseData.description,
+                        estimatedTime: (responseData.estimatedTime ? responseData.estimatedTime : ''),
+                        materialsNeeded: (responseData.materialsNeeded ? responseData.materialsNeeded : '')
+                    });
+                } else {
+                    this.props.history.push('/notfound');
+                }
             })
             .catch(error => {
                 console.log('Error fetching data', error);

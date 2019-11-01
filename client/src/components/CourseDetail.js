@@ -12,10 +12,14 @@ class CourseDetail extends Component {
         const courseId = this.props.match.params.id;
         this.props.context.actions.getCourse(courseId)
             .then(responseData => {
-                this.setState({ 
-                    course: responseData, 
-                    courseOwner: responseData.User 
-                });
+                if (responseData !== null) {
+                    this.setState({ 
+                        course: responseData, 
+                        courseOwner: responseData.User 
+                    });
+                } else {
+                    this.props.history.push('/notfound');
+                }
             })
             .catch(error => {
                 console.log('Error fetching data', error);
