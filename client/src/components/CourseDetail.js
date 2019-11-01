@@ -28,8 +28,20 @@ class CourseDetail extends Component {
     };
 
     deleteCourse = (courseId) => {
-        this.props.context.actions.deleteCourse(courseId);
-        this.props.history.push('/courses');
+        this.props.context.actions.deleteCourse(courseId)
+            .then(response => {
+                if (response.status === 204) {
+                    this.props.history.push('/courses');
+                } else if (response.status === 404) {
+                    this.props.history.push('/notfound');
+                } else if (response.status === 403) {
+                    this.props.history.push('/forbidden');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                this.props.history.push('/error');
+            })
     }
 
     render() {
@@ -97,7 +109,7 @@ const ButtonsDisplay = (props) => {
             buttonsDisplay = (
                 <span>
                     <Link to={`/courses/${courseId}/update`} className="button">Update Course</Link>
-                    <Link to="/courses" onClick={() => {deleteCourse(courseId)}} className="button">Delete Course</Link>
+                    <button onClick={() => {deleteCourse(courseId)}} className="button">Delete Course</button>
                 </span>
             )
         }

@@ -87,7 +87,7 @@ export class Provider extends Component {
                         return responseData.errors;
                     })
         } else if (response.status === 200) {
-            return ['Account already exists with that email address'];
+            return ['An account already exists with that email address'];
         } else {
             throw new Error();
         }
@@ -155,7 +155,7 @@ export class Provider extends Component {
     deleteCourse = async (courseId) => {
         const { emailAddress } = this.state.authenticatedUser;  
         const password = atob(this.state.userPassword);
-        await this.callApi(`/courses/${courseId}`, 'DELETE', null, true, {emailAddress, password});
+        return await this.callApi(`/courses/${courseId}`, 'DELETE', null, true, {emailAddress, password});
     }
     
     render() {
