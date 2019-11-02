@@ -56,8 +56,8 @@ class UpdateCourse extends Component {
         const courseId = this.props.match.params.id;
         const courseData = { 
             userId: this.state.courseOwner.id,
-            title: this.state.title,
-            description: this.state.description,
+            title: this.state.title || '',
+            description: this.state.description || '',
             estimatedTime: this.state.estimatedTime,
             materialsNeeded: this.state.materialsNeeded
         }

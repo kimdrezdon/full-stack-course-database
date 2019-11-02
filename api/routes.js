@@ -90,8 +90,8 @@ router.post("/users", asyncHandler(async (req, res, next) => {
           console.log("New user successfully created");
           res.status(201).set("Location", "/").end();
         } else {
-          console.log(`An account already exists with the email address ${user.emailAddress}`);
-          res.status(200).set("Location", "/").end();
+          // console.log(`An account already exists with the email address ${user.emailAddress}`);
+          res.status(200).set("Location", "/").json({ message: `An account already exists with the email address ${user.emailAddress}`});
         }
       });
   } catch (error) {

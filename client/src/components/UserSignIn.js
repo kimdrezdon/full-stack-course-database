@@ -34,6 +34,7 @@ class UserSignIn extends Component {
                     })
                 } else {
                     this.props.history.push(from);
+                    console.log(user);
                 }
             })
             .catch( error => {

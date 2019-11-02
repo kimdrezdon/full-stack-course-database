@@ -87,7 +87,10 @@ export class Provider extends Component {
                         return responseData.errors;
                     })
         } else if (response.status === 200) {
-            return ['An account already exists with that email address'];
+            return response.json()
+                .then(responseData => {
+                    return [ responseData.message ];
+                })
         } else {
             throw new Error();
         }
@@ -144,7 +147,8 @@ export class Provider extends Component {
         } else if (response.status === 400) {
             return response.json()
                 .then(responseData => {
-                    return responseData.errors;
+                    const errors = [ responseData.errors || responseData.message ];
+                    return errors;
                 })
         } else {
             throw new Error();
