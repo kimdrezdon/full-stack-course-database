@@ -7,8 +7,10 @@ class Courses extends Component {
     };
     
     componentDidMount() {
+        //retrieves all course data from the API
         this.props.context.actions.getCourses()
             .then(responseData => {
+                //sets courses state if successful
                 this.setState({ courses: responseData });
             })
             .catch(error => {
