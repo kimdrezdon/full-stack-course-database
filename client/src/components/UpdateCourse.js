@@ -12,11 +12,14 @@ class UpdateCourse extends Component {
     }
 
     componentDidMount() {
+        //sends a request to the API to retrieve a course
         const courseId = this.props.match.params.id;
         this.props.context.actions.getCourse(courseId)
             .then(responseData => {
                 if (responseData !== null) {
+                    //if the course is found, checks if the current user matches the course owner
                     if (responseData.User.id === this.props.context.authenticatedUser.id) {
+                        //if the current user matches the course owner, set state to the retrieved course data
                         this.setState({
                             courseOwner: responseData.User,
                             title: responseData.title,
@@ -25,9 +28,11 @@ class UpdateCourse extends Component {
                             materialsNeeded: (responseData.materialsNeeded ? responseData.materialsNeeded : '')
                         });
                     } else {
+                        //if the current user doesn't match the course owner, redirect to the forbidden page
                         this.props.history.push('/forbidden');
                     }
                 } else {
+                    //if the course isn't found, redirects to the not found page
                     this.props.history.push('/notfound');
                 }
             })
@@ -37,12 +42,14 @@ class UpdateCourse extends Component {
             });
     }
 
+    //redirects to the course detail page when cancel button is clicked
     handleCancel = e => {
         e.preventDefault();
         const courseId = this.props.match.params.id;
         this.props.history.push(`/courses/${courseId}`);
     }
 
+    //updates state with the value of each input element
     handleChange = e => {
         const value = e.target.value;
         const name = e.target.name;
@@ -61,11 +68,14 @@ class UpdateCourse extends Component {
             estimatedTime: this.state.estimatedTime,
             materialsNeeded: this.state.materialsNeeded
         }
+        //sends a request to the API to update a course with user's input data
         this.props.context.actions.updateCourse(courseId, courseData)
             .then( errors => {
                 if (errors.length) {
+                    //if there are errors, set the errors state
                     this.setState({ errors });
                 } else {
+                    //if there aren't any errors, redirect to the course detail page
                     this.props.history.push(`/courses/${courseId}`);
                 }
             })

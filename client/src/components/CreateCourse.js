@@ -10,11 +10,13 @@ class CreateCourse extends Component {
         errors: []
     }
 
+    //redirects to course list when cancel button is clicked
     handleCancel = e => {
         e.preventDefault();
         this.props.history.push('/courses');
     }
 
+    //updates state with the value of each input element
     handleChange = e => {
         const value = e.target.value;
         const name = e.target.name;
@@ -26,6 +28,7 @@ class CreateCourse extends Component {
     handleSubmit = e => {
         e.preventDefault();
         if (this.props.context.authenticatedUser) {
+            //if there is a user signed in, sends a request to the API to create a course with user's input data
             const courseData = {
                 title: this.state.title,
                 description: this.state.description,
@@ -35,8 +38,10 @@ class CreateCourse extends Component {
             this.props.context.actions.createCourse(courseData)
                 .then( errors => {
                     if (errors.length) {
+                        //if there are errors, sets the errors state
                         this.setState({ errors });
                     } else {
+                        //if there aren't any errors, redirects to the course list
                         this.props.history.push('/courses');
                     }
                 })
@@ -45,6 +50,7 @@ class CreateCourse extends Component {
                     this.props.history.push('/error');
                 })
         } else {
+            //if there isn't a user signed in, redirects to the sign in page
             this.props.history.push('/signin');
         }
     }

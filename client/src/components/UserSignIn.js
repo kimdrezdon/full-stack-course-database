@@ -9,11 +9,13 @@ class UserSignIn extends Component {
         errors: []
     }
 
+    //redirects to the course list when cancel button is clicked
     handleCancel = e => {
         e.preventDefault();
         this.props.history.push('/courses');
     }
 
+    //updates state with the value of each input element
     handleChange = e => {
         const value = e.target.value;
         const name = e.target.name;
@@ -24,17 +26,20 @@ class UserSignIn extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        //sets redirect path to either the protected route the user just navigated from or to the course list 
         const { from } = this.props.location.state || { from: { pathname: '/courses' } };
         const { emailAddress, password } = this.state
+        //sends a request to the API to sign in the current user
         this.props.context.actions.signIn(emailAddress, password)
             .then( user => {
                 if (user === null) {
+                    //if the user authentication fail, set the errors state
                     this.setState({ 
                         errors: ['Sign-in was unsuccessful']
                     })
                 } else {
+                    //if the user authentication was successful, redirect the user
                     this.props.history.push(from);
-                    console.log(user);
                 }
             })
             .catch( error => {

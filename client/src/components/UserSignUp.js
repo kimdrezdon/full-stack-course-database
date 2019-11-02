@@ -12,11 +12,13 @@ export default class UserSignUp extends Component {
         errors: []
     }
 
+    //redirects to the course list when cancel button is clicked
     handleCancel = e => {
         e.preventDefault();
         this.props.history.push('/courses');
     }
 
+    //updates state with the value of each input element
     handleChange = e => {
         const value = e.target.value;
         const name = e.target.name;
@@ -26,19 +28,23 @@ export default class UserSignUp extends Component {
     }
 
     handleSubmit = e => {
-        e.preventDefault(); 
+        e.preventDefault();
         if (this.state.password === this.state.confirmPassword) {
+            //if the two passwords entered by the user match, set the user data to the user's input
             const userData = { 
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 emailAddress: this.state.emailAddress,
                 password: this.state.password
             }
+            //send a request to sign up the user
             this.props.context.actions.signUp(userData)
                 .then( errors => {
                     if (errors.length) {
+                        //if there are errors, set the errors state
                         this.setState({ errors });
                     } else {
+                        //if there are no errors, send a request to sign in the new user and redirect to the course list
                         this.props.context.actions.signIn(userData.emailAddress, userData.password);
                         this.props.history.push('/courses');
                     }
@@ -48,6 +54,7 @@ export default class UserSignUp extends Component {
                     this.props.history.push('/error');
                 })
         } else {
+            //if the two passwords entered by the user do not match, set the errors state
             this.setState({
                 errors: ['Passwords do not match']
             })

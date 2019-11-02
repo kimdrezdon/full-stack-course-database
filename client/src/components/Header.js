@@ -1,3 +1,4 @@
+//renders the Header component with a welcome message and sign out link if the user is logged in, or a sign up and sign in link if the user is not logged in
 import React from 'react';
 import { Link } from 'react-router-dom';
 
