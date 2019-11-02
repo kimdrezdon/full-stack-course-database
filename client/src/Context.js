@@ -8,12 +8,13 @@ const Context = React.createContext();
 
 //A higher-order component (HOC) that shares functionality across the components of the app. Returns a Provider component which provides the application state and any actions or event handlers that need to be shared between components, via a required value prop.
 export class Provider extends Component {
+    //stores the current user name, email and password
     state = {
         authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
         userPassword: Cookies.getJSON('userPassword') || null
     }
     
-    //callApi method used to make requests to the REST API
+    //method used to make requests to the REST API
     callApi = (path, method = 'GET', body = null, requiresAuthentication = false, credentials = null) => {
         
         const url = 'http://localhost:5000/api' + path;
@@ -37,20 +38,22 @@ export class Provider extends Component {
         return fetch(url, options);
     }
 
-    //getUser method
+    //method used to retrieve a user from the API.
     getUser = async (emailAddress, password) => {
         const response = await this.callApi(`/users`, 'GET', null, true, {emailAddress, password});
         if (response.status === 200) {
+            //returns the user data
             return response.json()
                 .then(responseData => responseData);
-        } else if (response.status === 401) {            
+        } else if (response.status === 401) {     
+            //if the user authentication middleware fails, returns null      
             return null;
         } else {
             throw new Error();
         }
     }
 
-    //signIn method
+    //method used to call getUser, then sets the user state and cookies if successful
     signIn = async (emailAddress, password) => {
         const user = await this.getUser(emailAddress, password);
         if (user !== null) {
@@ -66,7 +69,7 @@ export class Provider extends Component {
         return user;
     }
 
-    //signOut method
+    //method used to sign out the user, removes user state and cookies
     signOut = () => {
         this.setState({
             authenticatedUser: null,
@@ -76,17 +79,20 @@ export class Provider extends Component {
         Cookies.remove('userPassword');
     }
 
-    //signUp method
+    //method used to sign up a user, returns an errors array
     signUp = async (userData) => {
         const response = await this.callApi('/users', 'POST', userData);
         if (response.status === 201) {
+            //returns empty errors array if user successfully created
             return [];
         } else if (response.status === 400) {
+            //returns errors array if validation fails
             return response.json()
                     .then(responseData => {
                         return responseData.errors;
                     })
         } else if (response.status === 200) {
+            //returns errors array if user already exists
             return response.json()
                 .then(responseData => {
                     return [ responseData.message ];
@@ -96,14 +102,16 @@ export class Provider extends Component {
         }
     }
 
-    //createCourse method
+    //method used to create a course, returns an errors array
     createCourse = async (courseData) => {
         const { emailAddress } = this.state.authenticatedUser;  
         const password = atob(this.state.userPassword);
         const response = await this.callApi('/courses', 'POST', courseData, true, {emailAddress, password});
         if (response.status === 201) {
+            //returns empty errors array if course successfully created
             return [];
         } else if (response.status === 400) {
+            //returns errors array if validation fails
             return response.json()
                     .then(responseData => {
                         return responseData.errors;
@@ -113,23 +121,26 @@ export class Provider extends Component {
         }
     }
 
-    //getCourse method
+    //method retrieves course data
     getCourse = async (courseId) => {
         const response = await this.callApi(`/courses/${courseId}`, 'GET', null);
         if (response.status === 200) {
+            //returns course data if course exists
             return response.json()
                 .then(responseData => responseData);
-        } else if (response.status === 404) {            
+        } else if (response.status === 404) { 
+            //returns null if course doesn't exist          
             return null;
         } else {
             throw new Error();
         }
     }
 
-    //getCourses method
+    //method used to retrieve all course data
     getCourses = async () => {
         const response = await this.callApi(`/courses`, 'GET', null);
         if (response.status === 200) {
+            //returns all course data if successful
             return response.json()
                 .then(responseData => responseData);
         } else {
@@ -137,14 +148,16 @@ export class Provider extends Component {
         }
     }
 
-    //updateCourse method
+    //method used to update a course, returns an errors array
     updateCourse = async (courseId, courseData) => {
         const { emailAddress } = this.state.authenticatedUser;  
         const password = atob(this.state.userPassword);
         const response = await this.callApi(`/courses/${courseId}`, 'PUT', courseData, true, {emailAddress, password});
         if (response.status === 204) {
+            //returns an empty errors array if course successfully updated
             return [];
         } else if (response.status === 400) {
+            //returns errors array if any validation errors
             return response.json()
                 .then(responseData => {
                     const errors = [ responseData.errors || responseData.message ];
@@ -155,7 +168,7 @@ export class Provider extends Component {
         }
     }
 
-    //deleteCourse method
+    //method used to delete a course
     deleteCourse = async (courseId) => {
         const { emailAddress } = this.state.authenticatedUser;  
         const password = atob(this.state.userPassword);
