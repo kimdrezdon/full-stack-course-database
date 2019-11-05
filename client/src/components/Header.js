@@ -17,8 +17,18 @@ const Header = (props) => {
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            <Link to="/signup" className="signup">Sign Up</Link>
-                            <Link to="/signin" className="signin">Sign In</Link>
+                            <Link 
+                                to={location => ({
+                                    pathname: "/signup",
+                                    state: { from: location.pathname }
+                                })}
+                                className="signup">Sign Up</Link>
+                            <Link 
+                                to={location => ({
+                                    pathname: "/signin",
+                                    state: { from: location.pathname }
+                                })}
+                                className="signin">Sign In</Link>
                         </React.Fragment>
                     )}
                 </nav>

@@ -26,8 +26,9 @@ class UserSignIn extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        //sets redirect path to either the protected route the user just navigated from or to the course list 
+        //sets redirect path to either the protected route the user just navigated from or to the course list
         const { from } = this.props.location.state || { from: { pathname: '/courses' } };
+        
         const { emailAddress, password } = this.state
         //sends a request to the API to sign in the current user
         this.props.context.actions.signIn(emailAddress, password)

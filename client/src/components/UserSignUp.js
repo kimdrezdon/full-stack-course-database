@@ -29,6 +29,9 @@ export default class UserSignUp extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
+        //sets redirect path to either the protected route the user just navigated from or to the course list
+        const { from } = this.props.location.state || { from: { pathname: '/courses' } };
+
         if (this.state.password === this.state.confirmPassword) {
             //if the two passwords entered by the user match, set the user data to the user's input
             const userData = { 
@@ -44,9 +47,9 @@ export default class UserSignUp extends Component {
                         //if there are errors, set the errors state
                         this.setState({ errors });
                     } else {
-                        //if there are no errors, send a request to sign in the new user and redirect to the course list
+                        //if there are no errors, send a request to sign in the new user and redirect the user
                         this.props.context.actions.signIn(userData.emailAddress, userData.password);
-                        this.props.history.push('/courses');
+                        this.props.history.push(from);
                     }
                 })
                 .catch( error => {
