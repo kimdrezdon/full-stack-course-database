@@ -11,7 +11,7 @@ const bcryptjs = require("bcryptjs");
 const auth = require("basic-auth");
 
 //User and Course models
-const { User, Course } = require("./db").models;
+const { User, Course } = require("../db").models;
 
 //Middleware to handle errors without using try/catch blocks in every route. Takes in a callback function, wraps it in a try/catch block, and passes errors to the global error handling middleware
 function asyncHandler(cb) {
