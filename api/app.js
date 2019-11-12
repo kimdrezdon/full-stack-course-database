@@ -18,7 +18,7 @@ const enableGlobalErrorLogging =
 const db = require("./db");
 
 //Import the routes.js file
-const routes = require("./routes");
+const routes = require("./routes/routes");
 
 //Express middleware parses incoming JSON from the client and makes it available to our Express server via req.body
 app.use(express.json());
