@@ -43,13 +43,6 @@ db.sequelize.sync();
 //Use the routes.js file when the requested route starts with /api/
 app.use("/api", routes);
 
-// setup a friendly greeting for the root route
-app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to the REST API project!"
-  });
-});
-
 //Route for non-existent routes.
 app.use((req, res) => {
   res.status(404).json({
@@ -69,7 +62,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 })
 
