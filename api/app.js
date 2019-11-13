@@ -14,10 +14,6 @@ app.use(cors());
 const enableGlobalErrorLogging =
   process.env.ENABLE_GLOBAL_ERROR_LOGGING === "true";
 
-//Get Express to serve up React
-const path = require("path");
-app.use(express.static(path.join(__dirname, "client/build")));
-
 // imports the database from index.js
 const db = require("./db");
 
@@ -61,10 +57,6 @@ app.use((err, req, res, next) => {
     error: {}
   });
 });
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/client/build/index.html"));
-})
 
 // set our port
 app.set("port", process.env.PORT || 5000);
