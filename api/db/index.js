@@ -2,9 +2,15 @@
 const Sequelize = require("sequelize");
 
 // instantiate sequelize and configure it
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: "fsjstd-restapi.db",
+const sequelize = new Sequelize('courseapp', 'root', 'Gk045jbf', {
+  host: 'localhost',
+  dialect: "mysql",
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  },
   logging: false //disable logging
 });
 
