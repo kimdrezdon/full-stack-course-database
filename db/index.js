@@ -1,9 +1,12 @@
 // require sequelize
 const Sequelize = require("sequelize");
 
+// require dotenv
+require('dotenv').config();
+
 // instantiate sequelize and configure it
-const sequelize = new Sequelize('courseapp', 'root', 'Gk045jbf', {
-  host: 'localhost',
+const sequelize = new Sequelize('courseapp', process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
   dialect: "mysql",
   pool: {
     max: 5,

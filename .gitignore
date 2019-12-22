@@ -86,7 +86,3 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
-
-# Markup and Mockup files
-markup
-mockups
