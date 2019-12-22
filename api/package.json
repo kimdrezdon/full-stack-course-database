@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "seed": "cross-env DB_ENABLE_LOGGING=true node './seed'"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -32,8 +31,8 @@
     "cross-env": "^6.0.3",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
+    "mysql2": "^2.0.2",
     "promise.prototype.finally": "^3.1.1",
-    "sequelize": "^5.19.2",
-    "sqlite3": "^4.1.0"
+    "sequelize": "^5.19.2"
   }
 }
