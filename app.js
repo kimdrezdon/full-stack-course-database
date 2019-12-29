@@ -23,6 +23,10 @@ const routes = require("./routes/routes");
 //Express middleware parses incoming JSON from the client and makes it available to our Express server via req.body
 app.use(express.json());
 
+//Deployment setup
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
 //test the connection to the database
 (async () => {
   try {
@@ -56,6 +60,11 @@ app.use((err, req, res, next) => {
     message: err.message,
     error: {}
   });
+});
+
+//Deployment setup
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
 });
 
 // set our port
