@@ -5,7 +5,7 @@ const Sequelize = require("sequelize");
 require('dotenv').config();
 
 // instantiate sequelize and configure it
-const sequelize = new Sequelize('heroku_7416b5dd184d16c', process.env.DB_USER, process.env.DB_PASS, {
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   dialect: "mysql",
   pool: {
