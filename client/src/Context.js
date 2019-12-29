@@ -17,7 +17,7 @@ export class Provider extends Component {
     //method used to make requests to the REST API
     callApi = (path, method = 'GET', body = null, requiresAuthentication = false, credentials = null) => {
         
-        const url = 'http://localhost:5000/api' + path;
+        const url = '/api' + path;
 
         const options = {
             method,
