@@ -44,11 +44,11 @@ db.sequelize.sync();
 app.use("/api", routes);
 
 //Route for non-existent routes.
-app.use((req, res) => {
-  res.status(404).json({
-    message: "Route Not Found"
-  });
-});
+// app.use((req, res) => {
+//   res.status(404).json({
+//     message: "Route Not Found"
+//   });
+// });
 
 //Global error handling middleware
 app.use((err, req, res, next) => {
@@ -73,6 +73,6 @@ app.set("port", process.env.PORT || 5000);
 // start listening on our port
 const server = app.listen(app.get("port"), () => {
   console.log(
-    `Express server is listening on localhost:${server.address().port}`
+    `Express server is listening on port: ${server.address().port}`
   );
 });
