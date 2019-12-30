@@ -43,13 +43,6 @@ db.sequelize.sync();
 //Use the routes.js file when the requested route starts with /api/
 app.use("/api", routes);
 
-//Route for non-existent routes.
-// app.use((req, res) => {
-//   res.status(404).json({
-//     message: "Route Not Found"
-//   });
-// });
-
 //Global error handling middleware
 app.use((err, req, res, next) => {
   if (enableGlobalErrorLogging) {
