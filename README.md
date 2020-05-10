@@ -12,7 +12,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-Navigate to the `api` directory. From here you can run:
+From the project directory you can run:
 
 ### `npm start`
 
@@ -20,7 +20,7 @@ or to run the app in development mode:
 
 ### `npm run dev`
 
-Then navigate to the `client` directory. From here you can run:
+In a separate terminal, navigate to the `client` directory. From here you can run:
 
 ### `npm start`
 
