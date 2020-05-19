@@ -1,0 +1,15 @@
+export const CREATE_COURSE = 'CREATE_COURSE';
+export const GET_COURSE = 'GET_COURSE';
+export const UPDATE_COURSE = 'UPDATE_COURSE';
+export const DELETE_COURSE = 'DELETE_COURSE';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
+export const LOGOUT = 'LOGOUT';
+export const USER_LOADED = 'USER_LOADED';
+export const AUTH_FAIL = 'AUTH_FAIL';
+export const GET_COURSES = 'GET_COURSES';
+export const SET_CURRENT = 'SET_CURRENT';
+export const CLEAR_CURRENT = 'CLEAR_CURRENT';
+export const COURSE_ERROR = 'COURSE_ERROR';
