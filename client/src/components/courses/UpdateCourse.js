@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ErrorsDisplay from './ErrorsDisplay';
+import ErrorsDisplay from '../layout/ErrorsDisplay';
 
 class UpdateCourse extends Component {
     state = {
@@ -61,7 +61,7 @@ class UpdateCourse extends Component {
     handleSubmit = e => {
         e.preventDefault();
         const courseId = this.props.match.params.id;
-        const courseData = { 
+        const courseData = {
             userId: this.state.courseOwner.id,
             title: this.state.title || '',
             description: this.state.description || '',
@@ -82,10 +82,10 @@ class UpdateCourse extends Component {
             .catch( err => {
                 console.log(err);
                 this.props.history.push('/error');
-            })   
+            })
     }
 
-    render() { 
+    render() {
         const {
             courseOwner,
             title,
@@ -95,7 +95,7 @@ class UpdateCourse extends Component {
             errors
         } = this.state;
 
-        return ( 
+        return (
             <div className="bounds course--detail">
                 <h1>Update Course</h1>
                 <div>
@@ -105,24 +105,24 @@ class UpdateCourse extends Component {
                             <div className="course--header">
                                 <h4 className="course--label">Course</h4>
                                 <div>
-                                    <input 
-                                        id="title" 
-                                        name="title" 
-                                        type="text" 
-                                        className="input-title course--title--input" 
+                                    <input
+                                        id="title"
+                                        name="title"
+                                        type="text"
+                                        className="input-title course--title--input"
                                         placeholder="Course title..."
-                                        value={title} 
+                                        value={title}
                                         onChange={this.handleChange} />
                                 </div>
                                 <p>By {courseOwner.firstName} {courseOwner.lastName}</p>
                             </div>
                             <div className="course--description">
                                 <div>
-                                    <textarea 
-                                        id="description" 
-                                        name="description" 
-                                        className="" 
-                                        placeholder="Course description..." 
+                                    <textarea
+                                        id="description"
+                                        name="description"
+                                        className=""
+                                        placeholder="Course description..."
                                         value={description}
                                         onChange={this.handleChange} />
                                 </div>
@@ -134,12 +134,12 @@ class UpdateCourse extends Component {
                                     <li className="course--stats--list--item">
                                         <h4>Estimated Time</h4>
                                         <div>
-                                            <input 
-                                                id="estimatedTime" 
-                                                name="estimatedTime" 
-                                                type="text" 
+                                            <input
+                                                id="estimatedTime"
+                                                name="estimatedTime"
+                                                type="text"
                                                 className="course--time--input"
-                                                placeholder="Hours" 
+                                                placeholder="Hours"
                                                 value={estimatedTime}
                                                 onChange={this.handleChange} />
                                         </div>
@@ -147,11 +147,11 @@ class UpdateCourse extends Component {
                                     <li className="course--stats--list--item">
                                         <h4>Materials Needed</h4>
                                         <div>
-                                            <textarea 
-                                                id="materialsNeeded" 
-                                                name="materialsNeeded" 
-                                                className="" 
-                                                placeholder="List materials..." 
+                                            <textarea
+                                                id="materialsNeeded"
+                                                name="materialsNeeded"
+                                                className=""
+                                                placeholder="List materials..."
                                                 value={materialsNeeded}
                                                 onChange={this.handleChange} />
                                         </div>
@@ -169,5 +169,5 @@ class UpdateCourse extends Component {
         );
     }
 }
- 
+
 export default UpdateCourse;
