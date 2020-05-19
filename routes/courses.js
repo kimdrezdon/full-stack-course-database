@@ -7,7 +7,9 @@ const router = express.Router();
 //User and Course models
 const { User, Course } = require('../db').models;
 
-const { asyncHandler, authenticateUser } = require('./tools');
+const asyncHandler = require('../middleware/async');
+// Auth middleware to use on protected routes
+const authenticateUser = require('../middleware/auth');
 
 //Send a GET request to /courses to return a list of courses, including the user that owns each course (200)
 router.get(
@@ -57,19 +59,11 @@ router.post(
 	authenticateUser,
 	asyncHandler(async (req, res) => {
 		const user = req.currentUser;
-		try {
-			req.body.userId = user.dataValues.id;
-			const course = await Course.create(req.body);
-			const courseId = course.dataValues.id;
-			res.status(201).set('Location', `/courses/${courseId}`).end();
-		} catch (error) {
-			if (error.name === 'SequelizeValidationError') {
-				const errorMessages = error.errors.map(error => error.message);
-				res.status(400).json({ errors: errorMessages });
-			} else {
-				throw error;
-			}
-		}
+
+		req.body.userId = user.dataValues.id;
+		const course = await Course.create(req.body);
+		const courseId = course.dataValues.id;
+		res.status(201).set('Location', `/courses/${courseId}`).end();
 	})
 );
 
@@ -79,33 +73,24 @@ router.put(
 	authenticateUser,
 	asyncHandler(async (req, res) => {
 		const user = req.currentUser;
-		try {
-			const course = await Course.findByPk(req.params.id);
-			if (course) {
-				if (course.userId === user.dataValues.id) {
-					if (req.body.title && req.body.description) {
-						req.body.userId = user.dataValues.id; //prevent accidental override of course owner
-						await course.update(req.body);
-						res.status(204).end();
-					} else {
-						res.status(400).json({
-							message:
-								'Please provide both a title and a description'
-						});
-					}
+
+		const course = await Course.findByPk(req.params.id);
+		if (course) {
+			if (course.userId === user.dataValues.id) {
+				if (req.body.title && req.body.description) {
+					req.body.userId = user.dataValues.id; //prevent accidental override of course owner
+					await course.update(req.body);
+					res.status(204).end();
 				} else {
-					res.status(403).json({ message: 'Access Denied' });
+					res.status(400).json({
+						message: 'Please provide both a title and a description'
+					});
 				}
 			} else {
-				res.sendStatus(404);
+				res.status(403).json({ message: 'Access Denied' });
 			}
-		} catch (error) {
-			if (error.name === 'SequelizeValidationError') {
-				const errorMessages = error.errors.map(error => error.message);
-				res.status(400).json({ errors: errorMessages });
-			} else {
-				throw error;
-			}
+		} else {
+			res.sendStatus(404);
 		}
 	})
 );

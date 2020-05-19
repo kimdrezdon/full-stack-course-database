@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CourseContext from '../../context/course/courseContext';
 import AddCourse from '../layout/AddCourse';
+import Spinner from '../layout/Spinner';
 
 const Courses = () => {
 	const courseContext = useContext(CourseContext);
-	const { getCourses, courses } = courseContext;
+	const { getCourses, courses, loading } = courseContext;
 
 	useEffect(() => {
 		getCourses();
@@ -28,7 +29,7 @@ const Courses = () => {
 
 	return (
 		<div className='bounds'>
-			{courses !== null &&
+			{courses !== null && !loading ? (
 				courses.map(course => (
 					<div key={course.id} className='grid-33'>
 						<Link
@@ -39,7 +40,10 @@ const Courses = () => {
 							<h3 className='course--title'>{course.title}</h3>
 						</Link>
 					</div>
-				))}
+				))
+			) : (
+				<Spinner />
+			)}
 			<AddCourse />
 		</div>
 	);

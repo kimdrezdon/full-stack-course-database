@@ -38,17 +38,22 @@ db.sequelize.sync();
 // Define the routes
 app.use('/api/courses', require('./routes/courses'));
 app.use('/api/users', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
 
 //Global error handling middleware
 app.use((err, req, res, next) => {
-	if (enableGlobalErrorLogging) {
-		console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
+	if (err.name === 'SequelizeValidationError') {
+		const errorMessages = err.errors.map(error => error.message);
+		res.status(400).json({ errors: errorMessages });
+	} else {
+		if (enableGlobalErrorLogging) {
+			console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
+		}
+		res.status(err.status || 500).json({
+			message: err.message,
+			error: {}
+		});
 	}
-
-	res.status(err.status || 500).json({
-		message: err.message,
-		error: {}
-	});
 });
 
 // Heroku deployment setup

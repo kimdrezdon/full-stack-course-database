@@ -14,7 +14,14 @@ export default (state, action) => {
 		case GET_COURSES:
 			return {
 				...state,
-				courses: action.payload
+				courses: action.payload,
+				loading: false
+			};
+		case GET_COURSE:
+			return {
+				...state,
+				current: action.payload,
+				loading: false
 			};
 		case COURSE_ERROR:
 			return {
