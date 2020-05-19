@@ -1,40 +1,44 @@
 {
-  "name": "techdegree-project-10",
-  "version": "0.1.0",
-  "description": "REST API",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kimdrezdon/techdegree-project-10.git"
-  },
-  "author": "Kim Drezdon",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/kimdrezdon/techdegree-project-10/issues"
-  },
-  "homepage": "https://github.com/kimdrezdon/techdegree-project-10#readme",
-  "engines": {
-    "node": "12.11.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
-  },
-  "dependencies": {
-    "@types/cors": "^2.8.6",
-    "basic-auth": "^2.0.1",
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "cross-env": "^6.0.3",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "morgan": "^1.9.1",
-    "mysql2": "^2.0.2",
-    "promise.prototype.finally": "^3.1.1",
-    "sequelize": "^5.19.2"
-  }
+	"name": "techdegree-project-10",
+	"version": "0.1.0",
+	"description": "REST API",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js",
+		"server": "nodemon app.js",
+		"client": "npm start --prefix client",
+		"clientinstall": "npm install --prefix client",
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kimdrezdon/techdegree-project-10.git"
+	},
+	"author": "Kim Drezdon",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/kimdrezdon/techdegree-project-10/issues"
+	},
+	"homepage": "https://github.com/kimdrezdon/techdegree-project-10#readme",
+	"engines": {
+		"node": "12.11.1"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.2"
+	},
+	"dependencies": {
+		"@types/cors": "^2.8.6",
+		"basic-auth": "^2.0.1",
+		"bcryptjs": "^2.4.3",
+		"concurrently": "^5.2.0",
+		"cors": "^2.8.5",
+		"cross-env": "^6.0.3",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"morgan": "^1.9.1",
+		"mysql2": "^2.0.2",
+		"promise.prototype.finally": "^3.1.1",
+		"sequelize": "^5.19.2"
+	}
 }

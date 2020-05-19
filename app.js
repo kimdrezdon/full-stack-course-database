@@ -2,6 +2,8 @@
 const express = require('express');
 const app = express();
 
+const path = require('path');
+
 //Setup morgan
 const morgan = require('morgan');
 app.use(morgan('dev'));
@@ -19,10 +21,6 @@ const db = require('./db');
 
 //Express middleware parses incoming JSON from the client and makes it available to our Express server via req.body
 app.use(express.json());
-
-//Deployment setup
-const path = require('path');
-app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 //test the connection to the database
 (async () => {
@@ -53,10 +51,15 @@ app.use((err, req, res, next) => {
 	});
 });
 
-//Deployment setup
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
+// Heroku deployment setup
+if (process.env.NODE_ENV === 'production') {
+	// Set static folder
+	app.use(express.static('client/build'));
+
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	});
+}
 
 // set our port
 app.set('port', process.env.PORT || 5000);
