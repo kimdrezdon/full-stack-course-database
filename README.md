@@ -16,14 +16,12 @@ From the project directory you can run:
 
 ### `npm start`
 
-or to run the app in development mode:
+to run the server in development mode
+
+### `npm run server`
+
+to run the server in development mode using nodemon
 
 ### `npm run dev`
 
-In a separate terminal, navigate to the `client` directory. From here you can run:
-
-### `npm start`
-
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.
+to run both the server and client concurrently. Will open in the browser [http://localhost:3000](http://localhost:3000)

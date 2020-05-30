@@ -1,8 +1,6 @@
 //Require Express
 const express = require('express');
 const { check, validationResult } = require('express-validator');
-
-//Require Express router
 const router = express.Router();
 
 //Import tool to hash user passwords
