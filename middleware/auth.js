@@ -5,8 +5,6 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 module.exports = function (req, res, next) {
-	// Borrowed from Brad Traversy's React Front to Back course on Udemy
-
 	// Get token from header
 	const token = req.header('x-auth-token');
 
