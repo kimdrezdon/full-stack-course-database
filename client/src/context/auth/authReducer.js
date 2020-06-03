@@ -1,4 +1,12 @@
-import { USER_LOADED, AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS } from '../types';
+import {
+	USER_LOADED,
+	AUTH_ERROR,
+	LOGIN_FAIL,
+	LOGIN_SUCCESS,
+	REGISTER_SUCCESS,
+	REGISTER_FAIL,
+	LOGOUT
+} from '../types';
 
 export default (state, action) => {
 	switch (action.type) {
@@ -10,6 +18,7 @@ export default (state, action) => {
 				loading: false
 			};
 		case LOGIN_SUCCESS:
+		case REGISTER_SUCCESS:
 			// Sets token in local storage
 			localStorage.setItem('token', action.payload.token);
 			return {
@@ -20,6 +29,8 @@ export default (state, action) => {
 			};
 		case AUTH_ERROR:
 		case LOGIN_FAIL:
+		case REGISTER_FAIL:
+		case LOGOUT:
 			// Clear token in local storage
 			localStorage.removeItem('token');
 			return {
@@ -30,6 +41,7 @@ export default (state, action) => {
 				token: null,
 				error: action.payload
 			};
+
 		default:
 			return state;
 	}

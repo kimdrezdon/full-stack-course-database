@@ -40,6 +40,7 @@ router.post(
 		}
 
 		const user = req.body;
+		const { password, emailAddress } = user;
 
 		const salt = await bcrypt.genSalt(10);
 		user.password = await bcrypt.hash(password, salt);

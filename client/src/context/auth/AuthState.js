@@ -3,7 +3,15 @@ import axios from 'axios';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
 import setAuthToken from '../../utils/setAuthToken';
-import { USER_LOADED, AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS } from '../types';
+import {
+	USER_LOADED,
+	AUTH_ERROR,
+	LOGIN_FAIL,
+	LOGIN_SUCCESS,
+	REGISTER_SUCCESS,
+	REGISTER_FAIL,
+	LOGOUT
+} from '../types';
 
 const AuthState = props => {
 	const initialState = {
@@ -51,6 +59,29 @@ const AuthState = props => {
 		}
 	};
 
+	const signOut = () => {
+		dispatch({ type: LOGOUT });
+	};
+
+	const signUp = async formData => {
+		// Add header to request
+		const config = {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+		try {
+			// Send post request to back-end with signup form data in the req.body
+			const res = await axios.post('/api/users', formData, config);
+			// Response will be the jwt token from back-end
+			dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+
+			loadUser();
+		} catch (err) {
+			dispatch({ type: REGISTER_FAIL, payload: err.response.data.msg });
+		}
+	};
+
 	return (
 		<AuthContext.Provider
 			value={{
@@ -60,7 +91,9 @@ const AuthState = props => {
 				loading: state.loading,
 				error: state.error,
 				loadUser,
-				signIn
+				signIn,
+				signOut,
+				signUp
 			}}
 		>
 			{props.children}

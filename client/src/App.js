@@ -10,7 +10,6 @@ import CreateCourse from './components/courses/CreateCourse';
 import UpdateCourse from './components/courses/UpdateCourse';
 import UserSignUp from './components/auth/UserSignUp';
 import Header from './components/layout/Header';
-import UserSignOut from './components/auth/UserSignOut';
 import NotFound from './components/pages/NotFound';
 import UnhandledError from './components/pages/UnhandledError';
 import Forbidden from './components/pages/Forbidden';
@@ -61,7 +60,6 @@ const App = () => {
 							/>
 							<Route path='/signin' component={UserSignIn} />
 							<Route path='/signup' component={UserSignUp} />
-							<Route path='/signout' component={UserSignOut} />
 							<Route path='/notfound' component={NotFound} />
 							<Route path='/error' component={UnhandledError} />
 							<Route path='/forbidden' component={Forbidden} />

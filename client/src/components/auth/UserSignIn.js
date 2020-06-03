@@ -48,7 +48,9 @@ const UserSignIn = props => {
 	const handleSubmit = e => {
 		e.preventDefault();
 
-		if (emailAddress !== '' || password !== '') {
+		if (emailAddress === '' || password === '') {
+			console.log('Please enter all fields');
+		} else {
 			signIn({ emailAddress, password });
 		}
 	};
