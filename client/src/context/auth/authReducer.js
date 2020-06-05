@@ -41,7 +41,6 @@ export default (state, action) => {
 				token: null,
 				error: action.payload
 			};
-
 		default:
 			return state;
 	}

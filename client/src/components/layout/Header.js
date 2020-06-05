@@ -4,11 +4,11 @@ import React, { useContext, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
 
-const Header = props => {
+const Header = () => {
 	const authContext = useContext(AuthContext);
-	const { user, signOut } = authContext;
+	const { user, isAuthenticated, signOut } = authContext;
 
-	const onLogout = () => {
+	const handleLogout = () => {
 		signOut();
 	};
 
@@ -17,7 +17,11 @@ const Header = props => {
 			<span>
 				Welcome, {user && user.firstName} {user && user.lastName}!
 			</span>
-			<Link to='/courses' onClick={onLogout} className='signout'>
+			<Link
+				to={location => ({ ...location })}
+				onClick={handleLogout}
+				className='signout'
+			>
 				Sign Out
 			</Link>
 		</Fragment>
@@ -50,7 +54,7 @@ const Header = props => {
 		<div className='header'>
 			<div className='bounds'>
 				<h1 className='header--logo'>Courses</h1>
-				<nav>{user ? signedInLinks : signedOutLinks}</nav>
+				<nav>{isAuthenticated ? signedInLinks : signedOutLinks}</nav>
 			</div>
 		</div>
 	);

@@ -29,14 +29,13 @@ const AuthState = props => {
 		// Load token into global headers
 		if (localStorage.token) {
 			setAuthToken(localStorage.token);
-		}
-
-		try {
-			// Response will be the user, password excluded
-			const res = await axios.get('/api/auth');
-			dispatch({ type: USER_LOADED, payload: res.data });
-		} catch (err) {
-			dispatch({ type: AUTH_ERROR });
+			try {
+				// Response will be the user, password excluded
+				const res = await axios.get('/api/auth');
+				dispatch({ type: USER_LOADED, payload: res.data });
+			} catch (err) {
+				dispatch({ type: AUTH_ERROR });
+			}
 		}
 	};
 
@@ -59,10 +58,6 @@ const AuthState = props => {
 		}
 	};
 
-	const signOut = () => {
-		dispatch({ type: LOGOUT });
-	};
-
 	const signUp = async formData => {
 		// Add header to request
 		const config = {
@@ -80,6 +75,10 @@ const AuthState = props => {
 		} catch (err) {
 			dispatch({ type: REGISTER_FAIL, payload: err.response.data.msg });
 		}
+	};
+
+	const signOut = () => {
+		dispatch({ type: LOGOUT });
 	};
 
 	return (

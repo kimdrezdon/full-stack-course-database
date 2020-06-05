@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 // Import components
 import PrivateRoute from './components/routing/PrivateRoute';
-import Courses from './components/pages/Courses';
+import Home from './components/pages/Home';
 import CourseDetail from './components/courses/CourseDetail';
 import UserSignIn from './components/auth/UserSignIn';
 import CreateCourse from './components/courses/CreateCourse';
@@ -44,7 +44,7 @@ const App = () => {
 								path='/'
 								render={() => <Redirect to='/courses' />}
 							/>
-							<Route exact path='/courses' component={Courses} />
+							<Route exact path='/courses' component={Home} />
 							<PrivateRoute
 								path='/courses/create'
 								component={CreateCourse}

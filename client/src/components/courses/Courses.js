@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import CourseContext from '../../context/course/courseContext';
-import AddCourse from '../layout/AddCourse';
 import Spinner from '../layout/Spinner';
+import CourseContext from '../../context/course/courseContext';
 
 const Courses = () => {
 	const courseContext = useContext(CourseContext);
@@ -13,22 +12,8 @@ const Courses = () => {
 		// eslint-disable-next-line
 	}, []);
 
-	// componentDidMount() {
-	// 	//retrieves all course data from the API
-	// 	this.props.context.actions
-	// 		.getCourses()
-	// 		.then(responseData => {
-	// 			//sets courses state if successful
-	// 			this.setState({ courses: responseData });
-	// 		})
-	// 		.catch(error => {
-	// 			console.log(error);
-	// 			this.props.history.push('/error');
-	// 		});
-	// }
-
 	return (
-		<div className='bounds'>
+		<Fragment>
 			{courses !== null && !loading ? (
 				courses.map(course => (
 					<div key={course.id} className='grid-33'>
@@ -44,8 +29,7 @@ const Courses = () => {
 			) : (
 				<Spinner />
 			)}
-			<AddCourse />
-		</div>
+		</Fragment>
 	);
 };
 

@@ -1,30 +1,29 @@
 //HOC that configures protected routes
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { Consumer } from '../../Context';
+import AuthContext from '../../context/auth/authContext';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
+	const authContext = useContext(AuthContext);
+	const { isAuthenticated, loading } = authContext;
+
 	return (
-		<Consumer>
-			{context => (
-				<Route
-					{...rest}
-					render={props =>
-						context.authenticatedUser ? (
-							<Component {...props} />
-						) : (
-							<Redirect
-								to={{
-									pathname: '/signin',
-									state: { from: props.location }
-								}}
-							/>
-						)
-					}
-				/>
-			)}
-		</Consumer>
+		<Route
+			{...rest}
+			render={props =>
+				!isAuthenticated && !loading ? (
+					<Redirect
+						to={{
+							pathname: '/signin',
+							state: { from: props.location }
+						}}
+					/>
+				) : (
+					<Component {...props} />
+				)
+			}
+		/>
 	);
 };
 

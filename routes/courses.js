@@ -73,6 +73,7 @@ router.post(
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			const errorMessages = errors.array().map(error => error.msg);
+			console.log(req.body);
 			return res.status(400).json({ errors: errorMessages });
 		}
 
@@ -80,8 +81,9 @@ router.post(
 
 		req.body.userId = user.id;
 		const course = await Course.create(req.body);
-		const courseId = course.dataValues.id;
-		res.status(201).set('Location', `/courses/${courseId}`).end();
+		if (course) {
+			res.status(201).json(course);
+		}
 	})
 );
 

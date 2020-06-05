@@ -26,6 +26,7 @@ router.get(
 	'/',
 	auth,
 	asyncHandler(async (req, res) => {
+		// User id comes from auth middleware decoding the token
 		const user = await User.findByPk(req.user.id, {
 			attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }
 		});

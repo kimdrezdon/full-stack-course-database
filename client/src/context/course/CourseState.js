@@ -8,7 +8,6 @@ import {
 	UPDATE_COURSE,
 	DELETE_COURSE,
 	GET_COURSES,
-	SET_CURRENT,
 	CLEAR_CURRENT,
 	COURSE_ERROR
 } from '../types';
@@ -18,6 +17,7 @@ const CourseState = props => {
 		courses: null,
 		current: null,
 		error: null,
+		courseChange: false,
 		loading: true
 	};
 
@@ -27,7 +27,7 @@ const CourseState = props => {
 	const getCourses = async () => {
 		try {
 			const res = await axios.get('/api/courses');
-			//returns all course data if successful
+			// returns all course data if successful
 			dispatch({ type: GET_COURSES, payload: res.data });
 		} catch (err) {
 			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
@@ -38,11 +38,40 @@ const CourseState = props => {
 	const getCourse = async courseId => {
 		try {
 			const res = await axios.get(`/api/courses/${courseId}`);
-			//returns course data if course exists
+			// returns course data if course exists
 			dispatch({ type: GET_COURSE, payload: res.data });
 		} catch (err) {
 			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
 		}
+	};
+
+	const createCourse = async formData => {
+		// Add header to request
+		const config = {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+		try {
+			const res = await axios.post('/api/courses', formData, config);
+			dispatch({ type: CREATE_COURSE, payload: res.data });
+		} catch (err) {
+			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
+		}
+	};
+
+	const deleteCourse = async courseId => {
+		try {
+			await axios.delete(`/api/courses/${courseId}`);
+			// returns no content
+			dispatch({ type: DELETE_COURSE });
+		} catch (err) {
+			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
+		}
+	};
+
+	const clearCurrent = () => {
+		dispatch({ type: CLEAR_CURRENT });
 	};
 
 	return (
@@ -52,8 +81,12 @@ const CourseState = props => {
 				current: state.current,
 				error: state.error,
 				loading: state.loading,
+				courseChange: state.courseChange,
 				getCourses,
-				getCourse
+				getCourse,
+				deleteCourse,
+				clearCurrent,
+				createCourse
 			}}
 		>
 			{props.children}
