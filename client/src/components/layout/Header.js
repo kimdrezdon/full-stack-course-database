@@ -1,12 +1,19 @@
 // Renders the Header component with a welcome message and sign out link if the user is logged in, or a sign up and sign in link if the user is not logged in
 
-import React, { useContext, Fragment } from 'react';
+import React, { useContext, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
 
 const Header = () => {
 	const authContext = useContext(AuthContext);
-	const { user, isAuthenticated, signOut } = authContext;
+	const { user, isAuthenticated, signOut, loadUser } = authContext;
+
+	useEffect(() => {
+		// Stay authenticated even when page is refreshed
+		loadUser();
+
+		// eslint-disable-next-line
+	}, []);
 
 	const handleLogout = () => {
 		signOut();

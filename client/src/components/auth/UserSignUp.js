@@ -3,24 +3,24 @@ import { Link } from 'react-router-dom';
 import ErrorsDisplay from '../layout/ErrorsDisplay';
 import AuthContext from '../../context/auth/authContext';
 
-const UserSignUp = props => {
+const UserSignUp = ({ location, history }) => {
 	const authContext = useContext(AuthContext);
 	const { signUp, isAuthenticated, error } = authContext;
 
 	useEffect(() => {
 		// If signUp successful, redirect to to either the protected route the user just navigated from or to the course list
 		if (isAuthenticated) {
-			const { from } = props.location.state || {
+			const { from } = location.state || {
 				from: { pathname: '/courses' }
 			};
-			props.history.push(from);
+			history.push(from);
 		}
 		if (error) {
 			console.log(error);
-			props.history.push('/error');
+			history.push('/error');
 		}
 		//eslint-disable-next-line
-	}, [isAuthenticated, error, props.history]);
+	}, [isAuthenticated, error, history]);
 
 	// Component level state for form fields
 	const [user, setUser] = useState({
@@ -42,7 +42,7 @@ const UserSignUp = props => {
 	//redirects to the course list when cancel button is clicked
 	const handleCancel = e => {
 		e.preventDefault();
-		props.history.push('/courses');
+		history.push('/courses');
 	};
 
 	//updates state with the value of each input element

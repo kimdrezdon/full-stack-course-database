@@ -45,6 +45,25 @@ const CourseState = props => {
 		}
 	};
 
+	const updateCourse = async (formData, courseId) => {
+		// Add header to request
+		const config = {
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		};
+		try {
+			const res = await axios.put(
+				`/api/courses/${courseId}`,
+				formData,
+				config
+			);
+			dispatch({ type: UPDATE_COURSE, payload: res.data });
+		} catch (err) {
+			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
+		}
+	};
+
 	const createCourse = async formData => {
 		// Add header to request
 		const config = {
@@ -86,7 +105,8 @@ const CourseState = props => {
 				getCourse,
 				deleteCourse,
 				clearCurrent,
-				createCourse
+				createCourse,
+				updateCourse
 			}}
 		>
 			{props.children}

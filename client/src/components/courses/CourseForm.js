@@ -3,17 +3,11 @@ import ErrorsDisplay from '../layout/ErrorsDisplay';
 import AuthContext from '../../context/auth/authContext';
 import CourseContext from '../../context/course/courseContext';
 
-const CreateCourse = props => {
+const CreateCourse = ({ history, match }) => {
 	const authContext = useContext(AuthContext);
-	const { user, loadUser, isAuthenticated } = authContext;
+	const { user, loadUser } = authContext;
 	const courseContext = useContext(CourseContext);
-	const { createCourse } = courseContext;
-
-	useEffect(() => {
-		// Stay authenticated even when page is refreshed
-		loadUser();
-		// eslint-disable-next-line
-	}, []);
+	const { createCourse, current, updateCourse, courses } = courseContext;
 
 	const [course, setCourse] = useState({
 		title: '',
@@ -24,10 +18,19 @@ const CreateCourse = props => {
 
 	const { title, description, estimatedTime, materialsNeeded } = course;
 
+	useEffect(() => {
+		if (current) {
+			setCourse(current);
+		}
+		// Stay authenticated even when page is refreshed
+		loadUser();
+		// eslint-disable-next-line
+	}, []);
+
 	//redirects to course list when cancel button is clicked
 	const handleCancel = e => {
 		e.preventDefault();
-		props.history.push('/courses');
+		history.push('/courses');
 	};
 
 	//updates state with the value of each input element
@@ -40,40 +43,22 @@ const CreateCourse = props => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		if (isAuthenticated) {
-			//if there is a user signed in, sends a request to the API to create a course with user's input data
 
-			createCourse({
-				title,
-				description,
-				estimatedTime,
-				materialsNeeded
-			}).then(() => {
-				props.history.push('/courses');
+		if (current === null) {
+			//if there is a user signed in, sends a request to the API to create a course with user's input data
+			createCourse(course).then(() => {
+				history.push('/courses');
 			});
+		} else {
+			updateCourse(course, match.params.id).then(() =>
+				history.push(`/courses/${match.params.id}`)
+			);
 		}
-		// 		.then(errors => {
-		// 			if (errors.length) {
-		// 				//if there are errors, sets the errors state
-		// 				this.setState({ errors });
-		// 			} else {
-		// 				//if there aren't any errors, redirects to the course list
-		// 				this.props.history.push('/courses');
-		// 			}
-		// 		})
-		// 		.catch(error => {
-		// 			console.log(error);
-		// 			this.props.history.push('/error');
-		// 		});
-		// } else {
-		// 	//if there isn't a user signed in, redirects to the sign in page
-		// 	this.props.history.push('/signin');
-		// }
 	};
 
 	return (
 		<div className='bounds course--detail'>
-			<h1>Create Course</h1>
+			<h1>{current ? 'Update Course' : 'Create Course'}</h1>
 			<div>
 				{/* <ErrorsDisplay errors={errors} /> */}
 				<form onSubmit={handleSubmit}>
@@ -144,7 +129,7 @@ const CreateCourse = props => {
 					</div>
 					<div className='grid-100 pad-bottom'>
 						<button className='button' type='submit'>
-							Create Course
+							{current ? 'Update Course' : 'Create Course'}
 						</button>
 						<button
 							className='button button-secondary'

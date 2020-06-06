@@ -24,6 +24,15 @@ export default (state, action) => {
 				current: action.payload,
 				loading: false
 			};
+		case UPDATE_COURSE:
+			return {
+				...state,
+				courses: state.courses.map(course =>
+					course.id === action.payload.id ? action.payload : course
+				),
+				courseChange: true,
+				loading: false
+			};
 		case CREATE_COURSE:
 			return {
 				...state,

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import AddCourse from '../layout/AddCourse';
+import AddCourse from '../courses/AddCourse';
 import Courses from '../courses/Courses';
 
 const Home = () => {

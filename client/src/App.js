@@ -6,8 +6,7 @@ import PrivateRoute from './components/routing/PrivateRoute';
 import Home from './components/pages/Home';
 import CourseDetail from './components/courses/CourseDetail';
 import UserSignIn from './components/auth/UserSignIn';
-import CreateCourse from './components/courses/CreateCourse';
-import UpdateCourse from './components/courses/UpdateCourse';
+import CourseForm from './components/courses/CourseForm';
 import UserSignUp from './components/auth/UserSignUp';
 import Header from './components/layout/Header';
 import NotFound from './components/pages/NotFound';
@@ -47,11 +46,11 @@ const App = () => {
 							<Route exact path='/courses' component={Home} />
 							<PrivateRoute
 								path='/courses/create'
-								component={CreateCourse}
+								component={CourseForm}
 							/>
 							<PrivateRoute
 								path='/courses/:id/update'
-								component={UpdateCourse}
+								component={CourseForm}
 							/>
 							<Route
 								exact

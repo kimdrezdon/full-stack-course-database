@@ -27,9 +27,7 @@ const CourseDetail = ({ match, history }) => {
 	}, []);
 
 	const handleDelete = () => {
-		deleteCourse(match.params.id);
-		clearCurrent();
-		history.push('/courses');
+		deleteCourse(match.params.id).then(() => history.push('/courses'));
 	};
 
 	return (
