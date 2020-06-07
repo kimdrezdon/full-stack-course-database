@@ -8,7 +8,6 @@ import {
 	UPDATE_COURSE,
 	DELETE_COURSE,
 	GET_COURSES,
-	CLEAR_CURRENT,
 	COURSE_ERROR
 } from '../types';
 
@@ -17,7 +16,6 @@ const CourseState = props => {
 		courses: null,
 		current: null,
 		error: null,
-		courseChange: false,
 		loading: true
 	};
 
@@ -89,10 +87,6 @@ const CourseState = props => {
 		}
 	};
 
-	const clearCurrent = () => {
-		dispatch({ type: CLEAR_CURRENT });
-	};
-
 	return (
 		<CourseContext.Provider
 			value={{
@@ -100,11 +94,9 @@ const CourseState = props => {
 				current: state.current,
 				error: state.error,
 				loading: state.loading,
-				courseChange: state.courseChange,
 				getCourses,
 				getCourse,
 				deleteCourse,
-				clearCurrent,
 				createCourse,
 				updateCourse
 			}}

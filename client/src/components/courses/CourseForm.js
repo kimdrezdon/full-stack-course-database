@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import ErrorsDisplay from '../layout/ErrorsDisplay';
 import AuthContext from '../../context/auth/authContext';
 import CourseContext from '../../context/course/courseContext';
 
@@ -7,7 +6,7 @@ const CreateCourse = ({ history, match }) => {
 	const authContext = useContext(AuthContext);
 	const { user, loadUser } = authContext;
 	const courseContext = useContext(CourseContext);
-	const { createCourse, current, updateCourse, courses } = courseContext;
+	const { createCourse, current, updateCourse } = courseContext;
 
 	const [course, setCourse] = useState({
 		title: '',
@@ -60,7 +59,6 @@ const CreateCourse = ({ history, match }) => {
 		<div className='bounds course--detail'>
 			<h1>{current ? 'Update Course' : 'Create Course'}</h1>
 			<div>
-				{/* <ErrorsDisplay errors={errors} /> */}
 				<form onSubmit={handleSubmit}>
 					<div className='grid-66'>
 						<div className='course--header'>

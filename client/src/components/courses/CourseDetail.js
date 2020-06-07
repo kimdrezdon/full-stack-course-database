@@ -9,13 +9,7 @@ const CourseDetail = ({ match, history }) => {
 	const authContext = useContext(AuthContext);
 	const { user, loadUser } = authContext;
 	const courseContext = useContext(CourseContext);
-	const {
-		getCourse,
-		current,
-		loading,
-		deleteCourse,
-		clearCurrent
-	} = courseContext;
+	const { getCourse, current, loading, deleteCourse } = courseContext;
 
 	useEffect(() => {
 		getCourse(match.params.id);

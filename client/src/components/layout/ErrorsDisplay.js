@@ -1,25 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import ErrorContext from '../../context/error/errorContext';
 
 //exports a function that renders any validation errors sent from the API
-const ErrorsDisplay = ({errors}) => {
-    let errorsDisplay = null;
+const ErrorsDisplay = () => {
+	const errorContext = useContext(ErrorContext);
+	const { errors } = errorContext;
 
-    if (errors.length) {
-        errorsDisplay = (
-            <div>
-                <h2 className="validation--errors--label">Validation errors</h2>
-                <div className="validation-errors">
-                    <ul>
-                        {errors.map((error, i) => 
-                            <li key={i}>{error}</li>
-                        )}
-                    </ul>
-                </div>
-            </div>
-        );
-    }
-    
-    return errorsDisplay;
-}
- 
+	return (
+		errors.length > 0 &&
+		errors.map(error => (
+			<div>
+				<div key={error.id} className='validation-errors'>
+					<i className='fas fa-info-circle' />
+					{error.msg}
+				</div>
+			</div>
+		))
+	);
+};
+
 export default ErrorsDisplay;

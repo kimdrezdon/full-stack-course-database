@@ -4,7 +4,6 @@ import {
 	UPDATE_COURSE,
 	DELETE_COURSE,
 	GET_COURSES,
-	CLEAR_CURRENT,
 	COURSE_ERROR
 } from '../types';
 
@@ -15,7 +14,6 @@ export default (state, action) => {
 				...state,
 				courses: action.payload,
 				current: null,
-				courseChange: false,
 				loading: false
 			};
 		case GET_COURSE:
@@ -30,14 +28,12 @@ export default (state, action) => {
 				courses: state.courses.map(course =>
 					course.id === action.payload.id ? action.payload : course
 				),
-				courseChange: true,
 				loading: false
 			};
 		case CREATE_COURSE:
 			return {
 				...state,
 				courses: [...state.courses, action.payload],
-				courseChange: true,
 				loading: false
 			};
 		case DELETE_COURSE:
@@ -47,11 +43,6 @@ export default (state, action) => {
 					course => course.id !== action.payload
 				),
 				loading: false
-			};
-		case CLEAR_CURRENT:
-			return {
-				...state,
-				current: null
 			};
 		case COURSE_ERROR:
 			return {

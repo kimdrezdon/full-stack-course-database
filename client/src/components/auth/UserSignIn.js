@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ErrorsDisplay from '../layout/ErrorsDisplay';
 import AuthContext from '../../context/auth/authContext';
 
 const UserSignIn = ({ location, history }) => {
@@ -60,7 +59,6 @@ const UserSignIn = ({ location, history }) => {
 			<div className='grid-33 centered signin'>
 				<h1>Sign In</h1>
 				<div>
-					{/* <ErrorsDisplay errors={errors} /> */}
 					<form onSubmit={handleSubmit}>
 						<div>
 							<input

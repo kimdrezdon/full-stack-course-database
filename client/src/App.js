@@ -12,10 +12,12 @@ import Header from './components/layout/Header';
 import NotFound from './components/pages/NotFound';
 import UnhandledError from './components/pages/UnhandledError';
 import Forbidden from './components/pages/Forbidden';
+import ErrorsDisplay from './components/layout/ErrorsDisplay';
 
 // Import Context
 import CourseState from './context/course/CourseState';
 import AuthState from './context/auth/AuthState';
+import ErrorState from './context/error/ErrorState';
 
 // Import auth function
 import setAuthToken from './utils/setAuthToken';
@@ -33,39 +35,48 @@ const App = () => {
 	return (
 		<AuthState>
 			<CourseState>
-				<BrowserRouter>
-					<div>
-						<Header />
-						<hr></hr>
-						<Switch>
-							<Route
-								exact
-								path='/'
-								render={() => <Redirect to='/courses' />}
-							/>
-							<Route exact path='/courses' component={Home} />
-							<PrivateRoute
-								path='/courses/create'
-								component={CourseForm}
-							/>
-							<PrivateRoute
-								path='/courses/:id/update'
-								component={CourseForm}
-							/>
-							<Route
-								exact
-								path='/courses/:id'
-								component={CourseDetail}
-							/>
-							<Route path='/signin' component={UserSignIn} />
-							<Route path='/signup' component={UserSignUp} />
-							<Route path='/notfound' component={NotFound} />
-							<Route path='/error' component={UnhandledError} />
-							<Route path='/forbidden' component={Forbidden} />
-							<Route component={NotFound} />
-						</Switch>
-					</div>
-				</BrowserRouter>
+				<ErrorState>
+					<BrowserRouter>
+						<div>
+							<Header />
+							<hr></hr>
+							<ErrorsDisplay />
+							<Switch>
+								<Route
+									exact
+									path='/'
+									render={() => <Redirect to='/courses' />}
+								/>
+								<Route exact path='/courses' component={Home} />
+								<PrivateRoute
+									path='/courses/create'
+									component={CourseForm}
+								/>
+								<PrivateRoute
+									path='/courses/:id/update'
+									component={CourseForm}
+								/>
+								<Route
+									exact
+									path='/courses/:id'
+									component={CourseDetail}
+								/>
+								<Route path='/signin' component={UserSignIn} />
+								<Route path='/signup' component={UserSignUp} />
+								<Route path='/notfound' component={NotFound} />
+								<Route
+									path='/error'
+									component={UnhandledError}
+								/>
+								<Route
+									path='/forbidden'
+									component={Forbidden}
+								/>
+								<Route component={NotFound} />
+							</Switch>
+						</div>
+					</BrowserRouter>
+				</ErrorState>
 			</CourseState>
 		</AuthState>
 	);
