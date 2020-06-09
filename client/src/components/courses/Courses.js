@@ -3,14 +3,21 @@ import { Link } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import CourseContext from '../../context/course/courseContext';
 
-const Courses = () => {
+const Courses = ({ history }) => {
 	const courseContext = useContext(CourseContext);
-	const { getCourses, courses, loading } = courseContext;
+	const { getCourses, courses, loading, error } = courseContext;
 
 	useEffect(() => {
 		getCourses();
 		// eslint-disable-next-line
 	}, []);
+
+	useEffect(() => {
+		if (error) {
+			console.log(error);
+			history.push('/error');
+		}
+	}, [error, history]);
 
 	return (
 		<Fragment>

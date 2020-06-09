@@ -6,7 +6,7 @@ const CreateCourse = ({ history, match }) => {
 	const authContext = useContext(AuthContext);
 	const { user, loadUser } = authContext;
 	const courseContext = useContext(CourseContext);
-	const { createCourse, current, updateCourse } = courseContext;
+	const { createCourse, current, updateCourse, getCourse } = courseContext;
 
 	const [course, setCourse] = useState({
 		title: '',
@@ -18,13 +18,20 @@ const CreateCourse = ({ history, match }) => {
 	const { title, description, estimatedTime, materialsNeeded } = course;
 
 	useEffect(() => {
-		if (current) {
-			setCourse(current);
+		if (match.path !== '/courses/create' && current === null) {
+			getCourse(match.params.id);
 		}
+
 		// Stay authenticated even when page is refreshed
 		loadUser();
 		// eslint-disable-next-line
 	}, []);
+
+	useEffect(() => {
+		if (current !== null) {
+			setCourse(current);
+		}
+	}, [current]);
 
 	//redirects to course list when cancel button is clicked
 	const handleCancel = e => {

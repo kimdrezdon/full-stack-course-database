@@ -28,7 +28,7 @@ const CourseState = props => {
 			// returns all course data if successful
 			dispatch({ type: GET_COURSES, payload: res.data });
 		} catch (err) {
-			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
+			dispatch({ type: COURSE_ERROR, payload: err.response });
 		}
 	};
 
@@ -39,7 +39,7 @@ const CourseState = props => {
 			// returns course data if course exists
 			dispatch({ type: GET_COURSE, payload: res.data });
 		} catch (err) {
-			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
+			dispatch({ type: COURSE_ERROR, payload: err.response });
 		}
 	};
 
@@ -58,7 +58,7 @@ const CourseState = props => {
 			);
 			dispatch({ type: UPDATE_COURSE, payload: res.data });
 		} catch (err) {
-			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
+			dispatch({ type: COURSE_ERROR, payload: err.response });
 		}
 	};
 
@@ -73,7 +73,7 @@ const CourseState = props => {
 			const res = await axios.post('/api/courses', formData, config);
 			dispatch({ type: CREATE_COURSE, payload: res.data });
 		} catch (err) {
-			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
+			dispatch({ type: COURSE_ERROR, payload: err.response });
 		}
 	};
 
@@ -83,7 +83,7 @@ const CourseState = props => {
 			// returns no content
 			dispatch({ type: DELETE_COURSE });
 		} catch (err) {
-			dispatch({ type: COURSE_ERROR, payload: err.response.msg });
+			dispatch({ type: COURSE_ERROR, payload: err.response });
 		}
 	};
 

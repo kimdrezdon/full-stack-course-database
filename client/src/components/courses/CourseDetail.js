@@ -9,7 +9,7 @@ const CourseDetail = ({ match, history }) => {
 	const authContext = useContext(AuthContext);
 	const { user, loadUser } = authContext;
 	const courseContext = useContext(CourseContext);
-	const { getCourse, current, loading, deleteCourse } = courseContext;
+	const { getCourse, current, loading, deleteCourse, error } = courseContext;
 
 	useEffect(() => {
 		getCourse(match.params.id);
@@ -20,8 +20,23 @@ const CourseDetail = ({ match, history }) => {
 		// eslint-disable-next-line
 	}, []);
 
+	useEffect(() => {
+		if (error) {
+			if (error.status === 404) {
+				history.push('/notfound');
+			} else if (error.status === 403) {
+				history.push('/forbidden');
+			} else {
+				console.log(error);
+				history.push('/error');
+			}
+		}
+	}, [error, history]);
+
 	const handleDelete = () => {
-		deleteCourse(match.params.id).then(() => history.push('/courses'));
+		deleteCourse(match.params.id).then(() => {
+			history.push('/courses');
+		});
 	};
 
 	return (
@@ -31,9 +46,7 @@ const CourseDetail = ({ match, history }) => {
 					<div className='actions--bar'>
 						<div className='bounds'>
 							<div className='grid-100'>
-								{/* conditionally renders the Update Course and
-								Delete Course buttons, only displaying them if
-								the current user is the course owner */}
+								{/* only renders the Update Course and Delete Course buttons if the current user is the course owner */}
 								{user !== null && user.id === current.User.id && (
 									<span>
 										<Link
