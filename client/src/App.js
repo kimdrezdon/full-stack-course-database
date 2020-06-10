@@ -12,12 +12,12 @@ import Header from './components/layout/Header';
 import NotFound from './components/pages/NotFound';
 import UnhandledError from './components/pages/UnhandledError';
 import Forbidden from './components/pages/Forbidden';
-import ErrorsDisplay from './components/layout/ErrorsDisplay';
+import Alerts from './components/layout/Alerts';
 
 // Import Context
 import CourseState from './context/course/CourseState';
 import AuthState from './context/auth/AuthState';
-import ErrorState from './context/error/ErrorState';
+import AlertState from './context/alert/AlertState';
 
 // Import auth function
 import setAuthToken from './utils/setAuthToken';
@@ -35,12 +35,12 @@ const App = () => {
 	return (
 		<AuthState>
 			<CourseState>
-				<ErrorState>
+				<AlertState>
 					<BrowserRouter>
 						<div>
 							<Header />
 							<hr></hr>
-							<ErrorsDisplay />
+							<Alerts />
 							<Switch>
 								<Route
 									exact
@@ -76,7 +76,7 @@ const App = () => {
 							</Switch>
 						</div>
 					</BrowserRouter>
-				</ErrorState>
+				</AlertState>
 			</CourseState>
 		</AuthState>
 	);

@@ -1,12 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../context/auth/authContext';
 import CourseContext from '../../context/course/courseContext';
+import AlertContext from '../../context/alert/alertContext';
 
 const CreateCourse = ({ history, match }) => {
 	const authContext = useContext(AuthContext);
 	const { user, loadUser } = authContext;
 	const courseContext = useContext(CourseContext);
 	const { createCourse, current, updateCourse, getCourse } = courseContext;
+	const alertContext = useContext(AlertContext);
+	const { setAlert, removeAlerts } = alertContext;
 
 	const [course, setCourse] = useState({
 		title: '',
@@ -36,6 +39,7 @@ const CreateCourse = ({ history, match }) => {
 	//redirects to course list when cancel button is clicked
 	const handleCancel = e => {
 		e.preventDefault();
+		removeAlerts();
 		history.push('/courses');
 	};
 
@@ -49,16 +53,19 @@ const CreateCourse = ({ history, match }) => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-
-		if (current === null) {
-			//if there is a user signed in, sends a request to the API to create a course with user's input data
-			createCourse(course).then(() => {
-				history.push('/courses');
-			});
+		removeAlerts();
+		if (title === '' || description === '') {
+			setAlert('Please add a title and description');
 		} else {
-			updateCourse(course, match.params.id).then(() =>
-				history.push(`/courses/${match.params.id}`)
-			);
+			if (current === null) {
+				createCourse(course).then(() => {
+					history.push('/courses');
+				});
+			} else {
+				updateCourse(course, match.params.id).then(() =>
+					history.push(`/courses/${match.params.id}`)
+				);
+			}
 		}
 	};
 
